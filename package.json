@@ -5,7 +5,7 @@
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
-    "lint": "biome check .",
+    "lint": "biome check . && node scripts/check-tokens.mjs",
     "typecheck": "turbo typecheck",
     "prepare": "lefthook install"
   },

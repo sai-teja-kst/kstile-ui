@@ -1,0 +1,28 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "kstile",
+  "homepage": "https://kstile.vercel.app",
+  "items": [
+    {
+      "name": "theme",
+      "type": "registry:theme",
+      "title": "kstile theme",
+      "description": "Square corners, Open Sans and the default lime accent.",
+      "files": [],
+      "cssVars": {
+        "theme": {
+          "font-sans": "'Open Sans', system-ui, sans-serif"
+        },
+        "light": {
+          "radius": "0rem",
+          "primary": "#b4e600",
+          "primary-foreground": "#000"
+        },
+        "dark": {
+          "primary": "#b4e600",
+          "primary-foreground": "#000"
+        }
+      }
+    }
+  ]
+}

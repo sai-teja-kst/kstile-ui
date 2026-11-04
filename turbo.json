@@ -11,8 +11,12 @@
       "dependsOn": ["^typecheck"]
     },
     "dev": {
+      "dependsOn": ["^build"],
       "cache": false,
       "persistent": true
+    },
+    "@kstile/registry#build": {
+      "cache": false
     }
   }
 }
