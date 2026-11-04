@@ -1,0 +1,41 @@
+@layer base, starlight, theme, components, utilities;
+
+@import "@astrojs/starlight-tailwind";
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+@theme {
+  --font-sans: "Open Sans", system-ui, sans-serif;
+
+  /* The shared neutrals from packages/ui, with steps in between for Starlight's scale. */
+  --color-gray-50: #f6f6f6;
+  --color-gray-100: #ececec;
+  --color-gray-200: #dcdcdc;
+  --color-gray-300: #b8b8b8;
+  --color-gray-400: #8a8a8a;
+  --color-gray-500: #6b6b6b;
+  --color-gray-600: #4d4d4d;
+  --color-gray-700: #2a2a2a;
+  --color-gray-800: #1b1b1b;
+  --color-gray-900: #000;
+  --color-gray-950: #000;
+
+  /* Docs stay neutral in phase-0. Lime must never be text on a light background. */
+  --color-accent-50: var(--color-gray-50);
+  --color-accent-100: var(--color-gray-100);
+  --color-accent-200: var(--color-gray-200);
+  --color-accent-300: var(--color-gray-300);
+  --color-accent-400: var(--color-gray-400);
+  --color-accent-500: var(--color-gray-500);
+  --color-accent-600: var(--color-gray-600);
+  --color-accent-700: var(--color-gray-700);
+  --color-accent-800: var(--color-gray-800);
+  --color-accent-900: var(--color-gray-900);
+  --color-accent-950: var(--color-gray-950);
+}
+
+.sl-markdown-content a {
+  color: var(--sl-color-white);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
