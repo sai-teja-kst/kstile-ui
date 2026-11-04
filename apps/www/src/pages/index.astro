@@ -188,11 +188,10 @@ const accents = [
     <style is:global>
       :root {
         --gap: 8px;
-        --margin: 24px;
+        --text-inset: 24px;
         --cols: 8;
-        --unit: calc(
-          (min(100vw, 1680px) - 2 * var(--margin) - (var(--cols) - 1) * var(--gap)) / var(--cols)
-        );
+        --rows: 4;
+        --row-min: 140px;
       }
       [data-theme="dark"] {
         color-scheme: dark;
@@ -202,6 +201,9 @@ const accents = [
       }
 
       body {
+        min-height: 100dvh;
+        display: flex;
+        flex-direction: column;
         background: var(--background);
         color: var(--foreground);
         font-size: 16px;
@@ -216,12 +218,10 @@ const accents = [
       }
 
       .bar {
-        max-width: 1680px;
-        margin-inline: auto;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 16px var(--margin);
+        padding: 12px var(--text-inset);
       }
       .wordmark {
         font-size: 22px;
@@ -238,13 +238,14 @@ const accents = [
         text-underline-offset: 4px;
       }
 
+      /* ponytail: rows stretch to fill the screen, and scroll only below --row-min */
       .start {
-        max-width: 1680px;
-        margin-inline: auto;
-        padding: 0 var(--margin) var(--margin);
+        flex: 1 1 0;
+        min-height: calc(var(--rows) * var(--row-min) + (var(--rows) - 1) * var(--gap));
+        padding-inline: var(--gap);
         display: grid;
         grid-template-columns: repeat(var(--cols), 1fr);
-        grid-auto-rows: var(--unit);
+        grid-template-rows: repeat(var(--rows), minmax(0, 1fr));
         gap: var(--gap);
         perspective: 1600px;
       }
@@ -301,14 +302,14 @@ const accents = [
         padding: 24px;
       }
       .tile.hero h1 {
-        font-size: clamp(72px, 17vw, 286px);
+        font-size: max(72px, min(17vw, 26dvh));
         font-weight: 300;
         letter-spacing: -0.05em;
         line-height: 0.86;
         margin-left: -0.04em;
       }
       .tile.hero p {
-        font-size: clamp(18px, 1.9vw, 30px);
+        font-size: max(18px, min(1.9vw, 3.2dvh));
         line-height: 1.2;
         font-weight: 400;
         max-width: 22em;
@@ -487,26 +488,30 @@ const accents = [
       }
 
       .note {
-        max-width: 1680px;
-        margin-inline: auto;
-        padding: 8px var(--margin) 32px;
-        font-size: 15px;
+        padding: 8px var(--text-inset);
+        font-size: 13px;
       }
 
       @media (max-width: 860px) {
         :root {
           --cols: 4;
-          --margin: 16px;
+          --rows: 12;
+          --row-min: 52px;
           --gap: 6px;
+          --text-inset: 22px;
         }
         .bar nav {
           display: none;
         }
         .hero {
           grid-row: span 3;
+          padding: 16px;
         }
         .tile.hero h1 {
-          font-size: 27vw;
+          font-size: max(64px, min(22vw, 12dvh));
+        }
+        .tile.hero p {
+          font-size: 16px;
         }
         .wide,
         .picker {
@@ -523,7 +528,7 @@ const accents = [
           font-size: 22px;
         }
         .install code {
-          font-size: 14px;
+          font-size: 13px;
         }
         .s,
         .theme {
