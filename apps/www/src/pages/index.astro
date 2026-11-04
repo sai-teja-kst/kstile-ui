@@ -33,15 +33,18 @@ const accents = [
           return null
         }
       }
-      const theme = read("starlight-theme")
-      document.documentElement.dataset.theme =
-        theme === "light" || theme === "dark"
-          ? theme
-          : matchMedia("(prefers-color-scheme: light)").matches
-            ? "light"
-            : "dark"
-      const accent = read("kstile-accent")
-      document.documentElement.dataset.accent = accents.includes(accent) ? accent : "lime"
+      window.kstileApplySettings = () => {
+        const theme = read("starlight-theme")
+        document.documentElement.dataset.theme =
+          theme === "light" || theme === "dark"
+            ? theme
+            : matchMedia("(prefers-color-scheme: light)").matches
+              ? "light"
+              : "dark"
+        const accent = read("kstile-accent")
+        document.documentElement.dataset.accent = accents.includes(accent) ? accent : "lime"
+      }
+      window.kstileApplySettings()
     </script>
   </head>
   <body class="font-sans">
@@ -125,17 +128,23 @@ const accents = [
 
     <script>
       const root = document.documentElement
+      // Storage is blocked if a write fails, so the choice lasts until reload and nothing may overwrite it.
+      let unsaved = false
       const store = (key: string, value: string) => {
         try {
           localStorage.setItem(key, value)
         } catch {
-          // Storage is blocked, so the choice lasts until reload.
+          unsaved = true
         }
       }
 
       // accent
-      for (const radio of document.querySelectorAll<HTMLInputElement>('input[name="accent"]')) {
-        radio.checked = radio.value === root.dataset.accent
+      const radios = document.querySelectorAll<HTMLInputElement>('input[name="accent"]')
+      const showAccent = () => {
+        for (const radio of radios) radio.checked = radio.value === root.dataset.accent
+      }
+      showAccent()
+      for (const radio of radios) {
         radio.addEventListener("change", () => {
           root.dataset.accent = radio.value
           store("kstile-accent", radio.value)
@@ -156,6 +165,20 @@ const accents = [
         root.dataset.theme = next
         store("starlight-theme", next)
         showTheme()
+      })
+
+      // Stay in step when the system theme changes, or when the browser restores this page from
+      // its back-forward cache after a change made on another page.
+      const { kstileApplySettings } = window as unknown as { kstileApplySettings: () => void }
+      const sync = () => {
+        if (unsaved) return
+        kstileApplySettings()
+        showAccent()
+        showTheme()
+      }
+      matchMedia("(prefers-color-scheme: light)").addEventListener("change", sync)
+      addEventListener("pageshow", (event) => {
+        if (event.persisted) sync()
       })
 
       // copy

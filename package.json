@@ -7,7 +7,7 @@
     "dev": "turbo dev",
     "lint": "biome check . && node scripts/check-tokens.mjs",
     "typecheck": "turbo typecheck",
-    "prepare": "lefthook install"
+    "prepare": "test ! -e .git || lefthook install"
   },
   "devDependencies": {
     "turbo": "^2.11.10",

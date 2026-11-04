@@ -1,7 +1,7 @@
 pre-commit:
   commands:
     banned-terms:
-      run: test ! -f .banned-terms || ! git grep --cached -n -i -w -F -f .banned-terms -- . ':!pnpm-lock.yaml'
+      run: test ! -f .banned-terms || { ! git grep --cached -n -i -w -F -f .banned-terms -- . ':!pnpm-lock.yaml' && ! git ls-files --cached | grep -i -w -F -f .banned-terms; }
     biome:
       glob: "*.{js,ts,tsx,mjs,json,jsonc,css,astro}"
       run: pnpm exec biome check --write --no-errors-on-unmatched {staged_files}
