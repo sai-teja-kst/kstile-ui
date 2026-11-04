@@ -1,15 +1,546 @@
 ---
 import "@workspace/ui/globals.css"
+import "@fontsource/open-sans/300.css"
+import "@fontsource/open-sans/400.css"
+import "@fontsource/open-sans/600.css"
+
+const accents = [
+  "lime",
+  "green",
+  "teal",
+  "blue",
+  "magenta",
+  "red",
+  "orange",
+  "yellow",
+]
 ---
 
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Square, flat tile components for shadcn/ui." />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>kstile</title>
+    <title>kstile: tile components for shadcn/ui</title>
+    <script is:inline define:vars={{ accents }}>
+      // Runs before first paint so there's no flash. Shares its theme setting with Starlight.
+      const read = (key) => {
+        try {
+          return localStorage.getItem(key)
+        } catch {
+          return null
+        }
+      }
+      const theme = read("starlight-theme")
+      document.documentElement.dataset.theme =
+        theme === "light" || theme === "dark"
+          ? theme
+          : matchMedia("(prefers-color-scheme: light)").matches
+            ? "light"
+            : "dark"
+      const accent = read("kstile-accent")
+      document.documentElement.dataset.accent = accents.includes(accent) ? accent : "lime"
+    </script>
   </head>
-  <body>
-    <h1>kstile</h1>
+  <body class="font-sans">
+    <header class="bar">
+      <a class="wordmark" href="/">kstile</a>
+      <nav aria-label="Main">
+        <span>Components</span>
+        <span>Templates</span>
+        <a href="/docs/">Docs</a>
+        <span>Changelog</span>
+      </nav>
+    </header>
+
+    <main class="start">
+      <section class="tile fill hero" style="--i:0">
+        <h1>kstile</h1>
+        <p>Square, flat tile components for shadcn/ui. Install one with a single command.</p>
+      </section>
+
+      <div class="tile fill flip m" style="--i:1">
+        <div class="card">
+          <div class="face front"><h2>components</h2></div>
+          <div class="face back" aria-hidden="true">
+            <div class="mini"><i></i><i></i><i></i><i></i><i></i></div>
+            <h2>components</h2>
+          </div>
+        </div>
+      </div>
+
+      <a class="tile flip m" href="/docs/" style="--i:2">
+        <div class="card">
+          <div class="face front"><h2>docs</h2></div>
+          <div class="face back" aria-hidden="true">
+            <p>Install, set your accent, add your first tile.</p>
+            <h2>docs</h2>
+          </div>
+        </div>
+      </a>
+
+      <section class="tile picker" style="--i:3">
+        <fieldset>
+          <legend>accent</legend>
+          <div class="swatches">
+            {
+              accents.map((accent) => (
+                <label data-accent={accent}>
+                  <input type="radio" name="accent" value={accent} />
+                  {accent}
+                </label>
+              ))
+            }
+          </div>
+        </fieldset>
+      </section>
+
+      <section class="tile wide install" style="--i:4">
+        <code id="cmd">pnpm dlx shadcn@latest add @kstile/tile</code>
+        <button type="button" id="copy">Copy command</button>
+      </section>
+
+      <div class="tile w" style="--i:5"><h2>changelog</h2></div>
+
+      <div class="tile fill flip w" style="--i:6">
+        <div class="card">
+          <div class="face front"><h2>templates</h2></div>
+          <div class="face back" aria-hidden="true">
+            <p>Whole pages built from tiles.</p>
+            <h2>templates</h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="tile s" style="--i:7"><h2>github</h2></div>
+
+      <button class="tile theme w" id="theme" type="button" style="--i:8">
+        <h2 id="theme-label">light</h2>
+      </button>
+    </main>
+
+    <p class="note">Mock for review. Only Docs works so far, and nothing else here is built yet.</p>
+
+    <script>
+      const root = document.documentElement
+      const store = (key: string, value: string) => {
+        try {
+          localStorage.setItem(key, value)
+        } catch {
+          // Storage is blocked, so the choice lasts until reload.
+        }
+      }
+
+      // accent
+      for (const radio of document.querySelectorAll<HTMLInputElement>('input[name="accent"]')) {
+        radio.checked = radio.value === root.dataset.accent
+        radio.addEventListener("change", () => {
+          root.dataset.accent = radio.value
+          store("kstile-accent", radio.value)
+        })
+      }
+
+      // theme
+      const themeButton = document.getElementById("theme") as HTMLButtonElement
+      const themeLabel = document.getElementById("theme-label") as HTMLElement
+      const showTheme = () => {
+        const next = root.dataset.theme === "dark" ? "light" : "dark"
+        themeLabel.textContent = next
+        themeButton.setAttribute("aria-label", `Switch to ${next} theme`)
+      }
+      showTheme()
+      themeButton.addEventListener("click", () => {
+        const next = root.dataset.theme === "dark" ? "light" : "dark"
+        root.dataset.theme = next
+        store("starlight-theme", next)
+        showTheme()
+      })
+
+      // copy
+      const copy = document.getElementById("copy") as HTMLButtonElement
+      const cmd = document.getElementById("cmd") as HTMLElement
+      copy.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(cmd.textContent ?? "")
+          copy.textContent = "Copied"
+        } catch {
+          getSelection()?.selectAllChildren(cmd)
+          copy.textContent = "Press Cmd+C"
+        }
+        setTimeout(() => {
+          copy.textContent = "Copy command"
+        }, 1600)
+      })
+
+      // flip one tile at a time, and leave a tile alone while someone is on it
+      if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        const flips = [...document.querySelectorAll(".flip")]
+        let n = 0
+        setInterval(() => {
+          const tile = flips[n++ % flips.length]
+          if (!tile.matches(":hover, :focus-within")) tile.classList.toggle("is-back")
+        }, 2600)
+      }
+    </script>
+
+    <style is:global>
+      :root {
+        --gap: 8px;
+        --margin: 24px;
+        --cols: 8;
+        --unit: calc(
+          (min(100vw, 1680px) - 2 * var(--margin) - (var(--cols) - 1) * var(--gap)) / var(--cols)
+        );
+      }
+      [data-theme="dark"] {
+        color-scheme: dark;
+      }
+      [data-theme="light"] {
+        color-scheme: light;
+      }
+
+      body {
+        background: var(--background);
+        color: var(--foreground);
+        font-size: 16px;
+        line-height: 1.5;
+        transition:
+          background-color 0.25s,
+          color 0.25s;
+      }
+      :focus-visible {
+        outline: 3px solid var(--foreground);
+        outline-offset: 2px;
+      }
+
+      .bar {
+        max-width: 1680px;
+        margin-inline: auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px var(--margin);
+      }
+      .wordmark {
+        font-size: 22px;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+      }
+      .bar nav {
+        display: flex;
+        gap: 24px;
+        font-size: 16px;
+      }
+      .bar nav a {
+        text-decoration: underline;
+        text-underline-offset: 4px;
+      }
+
+      .start {
+        max-width: 1680px;
+        margin-inline: auto;
+        padding: 0 var(--margin) var(--margin);
+        display: grid;
+        grid-template-columns: repeat(var(--cols), 1fr);
+        grid-auto-rows: var(--unit);
+        gap: var(--gap);
+        perspective: 1600px;
+      }
+
+      .tile {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 16px;
+        background: var(--card);
+        color: var(--foreground);
+        overflow: hidden;
+        transition:
+          transform 0.12s ease-out,
+          background-color 0.25s;
+        animation: tile-in 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+        animation-delay: calc(var(--i, 0) * 45ms);
+        transform-origin: left center;
+      }
+      a.tile:active {
+        transform: scale(0.97);
+      }
+      .tile.fill {
+        background: var(--primary);
+        color: var(--primary-foreground);
+      }
+      .tile h2 {
+        font-size: clamp(20px, 2.1vw, 34px);
+        font-weight: 300;
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+      }
+      .tile p {
+        font-size: 15px;
+        line-height: 1.4;
+      }
+
+      @keyframes tile-in {
+        from {
+          opacity: 0;
+          transform: rotateY(-40deg) translateX(-12px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+
+      .hero {
+        grid-column: span 4;
+        grid-row: span 2;
+        justify-content: space-between;
+        padding: 24px;
+      }
+      .tile.hero h1 {
+        font-size: clamp(72px, 17vw, 286px);
+        font-weight: 300;
+        letter-spacing: -0.05em;
+        line-height: 0.86;
+        margin-left: -0.04em;
+      }
+      .tile.hero p {
+        font-size: clamp(18px, 1.9vw, 30px);
+        line-height: 1.2;
+        font-weight: 400;
+        max-width: 22em;
+        letter-spacing: -0.01em;
+      }
+      .m {
+        grid-column: span 2;
+        grid-row: span 2;
+      }
+      .w {
+        grid-column: span 2;
+      }
+      .wide {
+        grid-column: span 3;
+      }
+      .s {
+        grid-column: span 1;
+      }
+      .picker {
+        grid-column: span 3;
+        grid-row: span 2;
+      }
+
+      /* flip tiles: two faces, and only the front is exposed to assistive tech */
+      .tile.flip {
+        padding: 0;
+        background: none;
+        perspective: 900px;
+      }
+      .flip .card {
+        position: absolute;
+        inset: 0;
+        transform-style: preserve-3d;
+        transition: transform 0.7s cubic-bezier(0.3, 0.8, 0.2, 1);
+      }
+      .flip.is-back .card {
+        transform: rotateX(-180deg);
+      }
+      .face {
+        position: absolute;
+        inset: 0;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        gap: 8px;
+        backface-visibility: hidden;
+        background: var(--card);
+        color: var(--foreground);
+      }
+      .face.back {
+        transform: rotateX(180deg);
+        background: var(--muted);
+      }
+      .flip.fill .face {
+        background: var(--primary);
+        color: var(--primary-foreground);
+      }
+
+      .mini {
+        flex: 1;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-auto-rows: 1fr;
+        gap: 4px;
+        min-height: 0;
+      }
+      .mini i {
+        background: var(--primary-foreground);
+        opacity: 0.9;
+      }
+      .mini i:nth-child(1) {
+        grid-column: span 2;
+        grid-row: span 2;
+      }
+      .mini i:nth-child(4) {
+        grid-column: span 2;
+      }
+      .mini i:nth-child(5) {
+        grid-column: span 4;
+        opacity: 0.55;
+      }
+
+      .picker fieldset {
+        flex: 1;
+        min-width: 0;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .picker legend {
+        font-size: clamp(20px, 2.1vw, 34px);
+        font-weight: 300;
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+        padding: 0 0 12px;
+      }
+      .swatches {
+        flex: 1;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 4px;
+        min-height: 0;
+      }
+      .swatches label {
+        position: relative;
+        background: var(--primary);
+        color: var(--primary-foreground);
+        cursor: pointer;
+        display: flex;
+        align-items: flex-end;
+        padding: 6px 8px;
+        font-size: 13px;
+        font-weight: 600;
+        transition: transform 0.12s;
+      }
+      .swatches label:active {
+        transform: scale(0.96);
+      }
+      .swatches input {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        margin: 0;
+        cursor: pointer;
+      }
+      .swatches label:has(input:checked)::after {
+        content: "";
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        width: 12px;
+        height: 12px;
+        background: var(--primary-foreground);
+      }
+      .swatches label:has(input:focus-visible) {
+        outline: 3px solid var(--foreground);
+        outline-offset: 2px;
+      }
+
+      .install {
+        justify-content: space-between;
+        gap: 8px;
+      }
+      .install code {
+        font:
+          400 clamp(13px, 1.15vw, 18px) / 1.35 ui-monospace,
+          Menlo,
+          monospace;
+        overflow-wrap: anywhere;
+      }
+      .install button {
+        align-self: flex-start;
+        font-size: 15px;
+        font-weight: 600;
+        padding: 6px 14px;
+        cursor: pointer;
+        background: var(--primary);
+        color: var(--primary-foreground);
+      }
+      .install button:active {
+        transform: scale(0.96);
+      }
+
+      .theme {
+        cursor: pointer;
+        text-align: left;
+      }
+      .theme:hover,
+      a.tile:hover .face {
+        background: var(--muted);
+      }
+      .theme:active {
+        transform: scale(0.97);
+      }
+
+      .note {
+        max-width: 1680px;
+        margin-inline: auto;
+        padding: 8px var(--margin) 32px;
+        font-size: 15px;
+      }
+
+      @media (max-width: 860px) {
+        :root {
+          --cols: 4;
+          --margin: 16px;
+          --gap: 6px;
+        }
+        .bar nav {
+          display: none;
+        }
+        .hero {
+          grid-row: span 3;
+        }
+        .tile.hero h1 {
+          font-size: 27vw;
+        }
+        .wide,
+        .picker {
+          grid-column: span 4;
+        }
+        .install {
+          grid-row: span 2;
+        }
+        .picker {
+          grid-row: span 3;
+        }
+        .tile h2,
+        .picker legend {
+          font-size: 22px;
+        }
+        .install code {
+          font-size: 14px;
+        }
+        .s,
+        .theme {
+          grid-column: span 2;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .tile {
+          animation: none;
+        }
+        .flip .card,
+        .tile,
+        body {
+          transition: none;
+        }
+      }
+    </style>
   </body>
 </html>
