@@ -1,0 +1,14 @@
+pre-commit:
+  commands:
+    banned-terms:
+      run: test ! -f .banned-terms || ! git grep --cached -n -i -w -F -f .banned-terms -- . ':!pnpm-lock.yaml'
+    biome:
+      glob: "*.{js,ts,tsx,mjs,json,jsonc,css,astro}"
+      run: pnpm exec biome check --write --no-errors-on-unmatched {staged_files}
+      stage_fixed: true
+commit-msg:
+  commands:
+    banned-terms:
+      run: test ! -f .banned-terms || ! grep -i -w -F -f .banned-terms {1}
+    commitlint:
+      run: pnpm exec commitlint --edit {1}
