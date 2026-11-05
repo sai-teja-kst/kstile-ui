@@ -30,6 +30,7 @@ yarn-error.log*
 
 # kstile
 .banned-terms
+/docs/
 .superpowers/
 .claude/skills/
 .taste-skill/

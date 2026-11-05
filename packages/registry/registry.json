@@ -23,6 +23,20 @@
           "primary-foreground": "#000"
         }
       }
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "A square button with a thick border, in six variants.",
+      "dependencies": ["@radix-ui/react-slot", "class-variance-authority"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "react/button.tsx",
+          "type": "registry:ui"
+        }
+      ]
     }
   ]
 }
