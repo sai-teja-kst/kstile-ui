@@ -51,7 +51,7 @@ const accents = [
     <header class="bar">
       <a class="wordmark" href="/">kstile</a>
       <nav aria-label="Main">
-        <a href="/docs/components/button/">Components</a>
+        <a href="/docs/components/">Components</a>
         <span>Templates</span>
         <a href="/docs/">Docs</a>
         <span>Changelog</span>
@@ -64,7 +64,7 @@ const accents = [
         <p>Square, flat tile components for shadcn/ui. Install one with a single command.</p>
       </section>
 
-      <div class="tile fill flip m" style="--i:1">
+      <a class="tile fill flip m" href="/docs/components/" style="--i:1">
         <div class="card">
           <div class="face front"><h2>components</h2></div>
           <div class="face back" aria-hidden="true">
@@ -72,13 +72,13 @@ const accents = [
             <h2>components</h2>
           </div>
         </div>
-      </div>
+      </a>
 
       <a class="tile flip m" href="/docs/" style="--i:2">
         <div class="card">
           <div class="face front"><h2>docs</h2></div>
           <div class="face back" aria-hidden="true">
-            <p>Install, set your accent, add your first tile.</p>
+            <p>Install a component and make it yours.</p>
             <h2>docs</h2>
           </div>
         </div>
@@ -101,7 +101,7 @@ const accents = [
       </section>
 
       <section class="tile wide install" style="--i:4">
-        <code id="cmd">pnpm dlx shadcn@latest add @kstile/tile</code>
+        <code id="cmd">pnpm dlx shadcn@latest add @kstile/button</code>
         <button type="button" id="copy">Copy command</button>
       </section>
 
@@ -123,8 +123,6 @@ const accents = [
         <h2 id="theme-label">light</h2>
       </button>
     </main>
-
-    <p class="note">Mock for review. Only Docs works so far, and nothing else here is built yet.</p>
 
     <script>
       const root = document.documentElement
@@ -505,14 +503,10 @@ const accents = [
       .theme:hover,
       a.tile:hover .face {
         background: var(--muted);
+        color: var(--foreground);
       }
       .theme:active {
         transform: scale(0.97);
-      }
-
-      .note {
-        padding: 8px var(--text-inset);
-        font-size: 13px;
       }
 
       @media (max-width: 860px) {
