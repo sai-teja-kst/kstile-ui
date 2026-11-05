@@ -1,0 +1,89 @@
+---
+title: Theming
+description: Use your own shadcn theme, or switch on kstile's look.
+---
+
+import PackageManagerTabs from "@/components/package-manager-tabs.astro"
+
+export const accents = [
+  ["lime", "#b4e600"],
+  ["green", "#16c172"],
+  ["teal", "#00b8b0"],
+  ["blue", "#2f8cff"],
+  ["magenta", "#ee2f96"],
+  ["red", "#f4473f"],
+  ["orange", "#ff7a1a"],
+  ["yellow", "#ffd21f"],
+]
+
+kstile components take their colours from your shadcn theme, through variables
+such as `--primary`, `--secondary` and `--destructive`. With shadcn's default
+neutral theme, the default button is black in light mode and white in dark mode.
+
+Corners stay square and there are no shadows, whatever your theme says.
+
+## kstile's look
+
+The `theme` item switches your project to kstile's look:
+
+<PackageManagerTabs run="shadcn@latest add https://kstile-ui.vercel.app/r/theme.json" />
+
+It changes these variables in your CSS file, for light and dark:
+
+| Variable                                | Becomes                     | What else it affects                                    |
+| --------------------------------------- | --------------------------- | ------------------------------------------------------- |
+| `--primary` and `--primary-foreground`  | lime, with black text       | Every shadcn component that uses the primary colour     |
+| `--radius`                              | `0rem`                      | Every shadcn component in your project becomes square   |
+| `--font-sans`                           | Open Sans                   | All text that uses the sans font                        |
+
+Commit first if you want an easy way back. The CLI replaces those values.
+
+### Load Open Sans
+
+The theme names the font but doesn't load it. Until you do, browsers fall back to
+the system font. One way is to self-host it:
+
+<PackageManagerTabs install="@fontsource/open-sans" />
+
+Then import the weights kstile uses at the top of your app, for example in
+`main.tsx`:
+
+```ts
+import "@fontsource/open-sans/400.css"
+import "@fontsource/open-sans/600.css"
+```
+
+## Accents
+
+Lime is the default. Eight accents are available:
+
+<div class="not-content" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:6px;margin-block:1rem">
+  {accents.map(([name, value]) => (
+    <div style={`background:${value};color:#000;padding:28px 10px 8px;font-size:13px;font-weight:600`}>
+      {name}
+      <br />
+      <span style="font-weight:400">{value}</span>
+    </div>
+  ))}
+</div>
+
+To use another, set `--primary` in both blocks of your CSS file:
+
+```css
+:root {
+  --primary: #2f8cff;
+  --primary-foreground: #000;
+}
+
+.dark {
+  --primary: #2f8cff;
+  --primary-foreground: #000;
+}
+```
+
+Two rules keep accents readable:
+
+- **Always put black text on an accent.** Every accent reaches at least 5.5:1
+  with black.
+- **Never use an accent as text on a light background.** Lime on white is only
+  1.5:1, which is far too faint to read.

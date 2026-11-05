@@ -35,6 +35,15 @@
   --color-accent-950: var(--color-gray-950);
 }
 
+/* The same size as the mark on the home page. */
+.site-title {
+  gap: 10px;
+}
+.site-title img {
+  height: 1.5rem;
+  width: auto;
+}
+
 .sl-markdown-content a:not(:where(.not-content *)) {
   color: var(--sl-color-white);
   text-decoration: underline;

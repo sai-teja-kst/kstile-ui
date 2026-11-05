@@ -14,6 +14,11 @@ export default defineConfig({
     starlight({
       title: "kstile",
       favicon: "/favicon.svg",
+      logo: {
+        light: "./src/assets/kstile-mark-light.svg",
+        dark: "./src/assets/kstile-mark-dark.svg",
+        alt: "",
+      },
       head: [
         {
           // Starlight applies the theme only on load, so a page restored from the
@@ -43,7 +48,11 @@ export default defineConfig({
       sidebar: [
         {
           label: "Getting started",
-          items: [{ label: "Introduction", slug: "docs" }],
+          items: [
+            { label: "Introduction", slug: "docs" },
+            { label: "Installation", slug: "docs/installation" },
+            { label: "Theming", slug: "docs/theming" },
+          ],
         },
         {
           label: "Components",
