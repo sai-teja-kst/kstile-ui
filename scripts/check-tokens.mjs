@@ -1,4 +1,4 @@
-// Fails if the accent tokens or the registry theme drift from docs/architecture.md.
+// Fails if the accent tokens or the registry theme drift from the agreed palette.
 import assert from "node:assert/strict"
 import { readFileSync } from "node:fs"
 

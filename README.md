@@ -10,5 +10,3 @@ pnpm build      # build the registry and the site
 pnpm lint       # Biome and the token check
 pnpm typecheck
 ```
-
-See [docs/architecture.md](docs/architecture.md) for how it's put together.
