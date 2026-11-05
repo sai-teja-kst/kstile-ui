@@ -43,7 +43,11 @@ export default defineConfig({
       sidebar: [
         {
           label: "Getting started",
-          items: [{ label: "Introduction", slug: "docs" }],
+          items: [
+            { label: "Introduction", slug: "docs" },
+            { label: "Installation", slug: "docs/installation" },
+            { label: "Theming", slug: "docs/theming" },
+          ],
         },
         {
           label: "Components",

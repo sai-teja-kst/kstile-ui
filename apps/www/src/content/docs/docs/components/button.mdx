@@ -34,15 +34,25 @@ export const row = "not-content flex flex-wrap items-center gap-3 py-4"
   </TabItem>
 </Tabs>
 
+The preview uses kstile's [theme](/docs/theming/). In your project, the button
+takes your theme's colours.
+
 ## Installation
+
+The button is React only, and needs Tailwind CSS v4. See
+[Installation](/docs/installation/) for the full requirements.
 
 <Tabs>
   <TabItem label="CLI">
-    <PackageManagerTabs run="shadcn@latest add @kstile/button" />
+    <PackageManagerTabs run="shadcn@latest add https://kstile-ui.vercel.app/r/button.json" />
 
-    This writes to `components/ui/button.tsx`. If you already have a shadcn button
-    there, the CLI asks before replacing it. The props and variants match, so your
-    existing code keeps working.
+    If you've set up the `@kstile` name, `shadcn add @kstile/button` does the same.
+    See [Installation](/docs/installation/#shorter-commands-with-kstile).
+
+    `shadcn init` adds shadcn's own button, so the CLI asks before replacing
+    `components/ui/button.tsx`. Answer yes to use kstile's button. Your code keeps
+    working, because the props and variants have the same names. Any changes you
+    made to that file are lost, so commit first.
 
   </TabItem>
   <TabItem label="Manual">
@@ -92,8 +102,31 @@ over these to see the difference.
   <Button size="lg">Large</Button>
 </div>
 
+### Icon buttons
+
 The icon sizes, `icon-xs`, `icon-sm`, `icon` and `icon-lg`, make the button a
-square for a single icon. Give it an `aria-label`, since it has no text.
+square for a single icon. Icons are sized for you unless they set their own
+`size-*` class. Give the button an `aria-label`, since it has no text.
+
+<div class={row}>
+  <Button size="icon-sm" variant="secondary" aria-label="Add">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true"><path d="M5 12h14M12 5v14" /></svg>
+  </Button>
+  <Button size="icon" aria-label="Add">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true"><path d="M5 12h14M12 5v14" /></svg>
+  </Button>
+  <Button size="icon-lg" variant="outline" aria-label="Add">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true"><path d="M5 12h14M12 5v14" /></svg>
+  </Button>
+</div>
+
+```tsx
+import { Plus } from "lucide-react"
+
+<Button size="icon" aria-label="Add">
+  <Plus />
+</Button>
+```
 
 ### Disabled
 
@@ -118,7 +151,23 @@ Use `asChild` to give another element the button's look.
 
 In Astro, `asChild` only works inside a React component. Children passed from an
 `.astro` or `.mdx` file reach React as plain HTML, so there's no element to merge
-into. Put `buttonVariants()` on the element's `class` instead.
+into. Use `buttonVariants()` instead.
+
+### Styling other elements
+
+`buttonVariants()` returns the button's classes as a string, so any element can
+look like a button. It takes the same `variant` and `size` options.
+
+```tsx
+import { buttonVariants } from "@/components/ui/button"
+
+<a href="/pricing" className={buttonVariants({ variant: "outline" })}>
+  Pricing
+</a>
+```
+
+The classes include the 3px border. The `borderWidth` prop belongs to `Button`, so
+for another width add an inline style, such as `style={{ borderWidth: 6 }}`.
 
 ## Usage
 
@@ -134,9 +183,25 @@ export function Example() {
 
 The button also takes every prop of a native `button` element.
 
-| Prop          | Type                                                                                | Default     | Description                                              |
-| ------------- | ----------------------------------------------------------------------------------- | ----------- | -------------------------------------------------------- |
-| `variant`     | `default`, `secondary`, `outline`, `ghost`, `destructive`, `link`                   | `default`   | How the button looks.                                    |
-| `size`        | `default`, `xs`, `sm`, `lg`, `icon`, `icon-xs`, `icon-sm`, `icon-lg`                | `default`   | The button's height and padding.                         |
-| `borderWidth` | `number` or `string`                                                                | 3px         | Border thickness. A number means pixels.                 |
-| `asChild`     | `boolean`                                                                           | `false`     | Passes the button's styles to its child element.         |
+| Prop          | Type                                                                 | Default   | Description                                                   |
+| ------------- | -------------------------------------------------------------------- | --------- | ------------------------------------------------------------- |
+| `variant`     | `default`, `secondary`, `outline`, `ghost`, `destructive`, `link`    | `default` | How the button looks.                                         |
+| `size`        | `default`, `xs`, `sm`, `lg`, `icon`, `icon-xs`, `icon-sm`, `icon-lg` | `default` | The button's height and padding.                              |
+| `borderWidth` | `number` or `string`                                                 | 3px       | Border thickness. A number means pixels.                      |
+| `asChild`     | `boolean`                                                            | `false`   | Passes the button's styles to its child element.              |
+| `className`   | `string`                                                             |           | Extra classes. Where they clash with the button's, yours win. |
+
+## Troubleshooting
+
+**`Unknown registry "@kstile"`.** Your `components.json` doesn't have the `@kstile`
+entry. Use the full address instead, or add the entry as shown in
+[Installation](/docs/installation/#shorter-commands-with-kstile).
+
+**There's no border, or no focus ring.** Your project is on Tailwind v3, which
+doesn't have `border-3` or `outline-3`. The button needs Tailwind v4.
+
+**The CLI says files were skipped because they "might be identical".** The button
+is already installed and unchanged. Nothing more to do.
+
+**The button is black, not lime.** It's using your theme's `--primary`. That's
+intended. See [Theming](/docs/theming/) for kstile's colours.

@@ -1,0 +1,67 @@
+---
+title: Installation
+description: Set up your project and add your first kstile component.
+---
+
+import PackageManagerTabs from "@/components/package-manager-tabs.astro"
+
+kstile components install with the [shadcn CLI](https://ui.shadcn.com/docs/cli).
+The CLI copies each component's code into your project, so you own every line.
+
+## Requirements
+
+- **React 19.** Components are React only for now. On React 18 they render, but
+  a `ref` won't reach the element.
+- **Tailwind CSS v4.** The thick borders and focus rings use classes such as
+  `border-3` that Tailwind v3 doesn't have, so on v3 they quietly disappear.
+- **A shadcn project**, which means a `components.json` file in your project.
+
+## 1. Set up shadcn
+
+Skip this if your project already has a `components.json`. Otherwise follow
+[shadcn's installation guide](https://ui.shadcn.com/docs/installation) for your
+framework, or run this in an existing React and Tailwind v4 project:
+
+<PackageManagerTabs run="shadcn@latest init" />
+
+## 2. Add a component
+
+Pass the component's address to the CLI. This works with no other setup:
+
+<PackageManagerTabs run="shadcn@latest add https://kstile-ui.vercel.app/r/button.json" />
+
+The CLI writes the component to `components/ui/` and installs what it needs. If a
+file with the same name exists, it asks before replacing it.
+
+## 3. Use it
+
+```tsx
+import { Button } from "@/components/ui/button"
+
+export function Example() {
+  return <Button>Try for free</Button>
+}
+```
+
+Components take their colours from your shadcn theme. To get kstile's own look,
+with square corners, a lime accent and Open Sans, see [Theming](/docs/theming/).
+
+## Shorter commands with `@kstile`
+
+To install with `@kstile/<name>` instead of the full address, add kstile to the
+`registries` in your `components.json`. You only do this once:
+
+```json title="components.json" ins={3-5}
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "registries": {
+    "@kstile": "https://kstile-ui.vercel.app/r/{name}.json"
+  }
+}
+```
+
+Keep the rest of the file as it is. Then:
+
+<PackageManagerTabs run="shadcn@latest add @kstile/button" />
+
+Without that entry, the CLI fails with `Unknown registry "@kstile"`.
