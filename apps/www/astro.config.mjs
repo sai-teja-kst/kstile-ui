@@ -14,6 +14,11 @@ export default defineConfig({
     starlight({
       title: "kstile",
       favicon: "/favicon.svg",
+      logo: {
+        light: "./src/assets/kstile-mark-light.svg",
+        dark: "./src/assets/kstile-mark-dark.svg",
+        alt: "",
+      },
       head: [
         {
           // Starlight applies the theme only on load, so a page restored from the

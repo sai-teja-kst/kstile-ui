@@ -49,7 +49,14 @@ const accents = [
   </head>
   <body class="font-sans">
     <header class="bar">
-      <a class="wordmark" href="/">kstile</a>
+      <a class="wordmark" href="/">
+        <svg viewBox="0 0 64 64" width="24" height="24" aria-hidden="true">
+          <rect fill="currentColor" x="4" y="4" width="30" height="56" />
+          <rect fill="#b4e600" x="38" y="4" width="22" height="26" />
+          <rect fill="currentColor" x="38" y="34" width="22" height="26" />
+        </svg>
+        kstile
+      </a>
       <nav aria-label="Main">
         <a href="/docs/components/">Components</a>
         <span>Templates</span>
@@ -245,6 +252,9 @@ const accents = [
         padding: 12px var(--text-inset);
       }
       .wordmark {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
         font-size: 22px;
         font-weight: 600;
         letter-spacing: -0.02em;
