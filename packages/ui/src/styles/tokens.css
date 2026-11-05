@@ -1,0 +1,81 @@
+@source "../../../registry/react/**/*.tsx";
+
+@custom-variant dark (&:is([data-theme="dark"] *));
+
+:root {
+  --background: #fff;
+  --foreground: #000;
+  --card: #ececec;
+  --muted: #dcdcdc;
+  --secondary: #dcdcdc;
+  --secondary-foreground: #000;
+  --accent: #ececec;
+  --accent-foreground: #000;
+  --destructive: #f4473f;
+  --destructive-foreground: #000;
+  --primary: #b4e600;
+  --primary-foreground: #000;
+  --radius: 0rem;
+}
+
+[data-theme="dark"] {
+  --background: #000;
+  --foreground: #fff;
+  --card: #1b1b1b;
+  --muted: #2a2a2a;
+  --secondary: #2a2a2a;
+  --secondary-foreground: #fff;
+  --accent: #1b1b1b;
+  --accent-foreground: #fff;
+}
+
+[data-accent="lime"] {
+  --primary: #b4e600;
+  --primary-foreground: #000;
+}
+[data-accent="green"] {
+  --primary: #16c172;
+  --primary-foreground: #000;
+}
+[data-accent="teal"] {
+  --primary: #00b8b0;
+  --primary-foreground: #000;
+}
+[data-accent="blue"] {
+  --primary: #2f8cff;
+  --primary-foreground: #000;
+}
+[data-accent="magenta"] {
+  --primary: #ee2f96;
+  --primary-foreground: #000;
+}
+[data-accent="red"] {
+  --primary: #f4473f;
+  --primary-foreground: #000;
+}
+[data-accent="orange"] {
+  --primary: #ff7a1a;
+  --primary-foreground: #000;
+}
+[data-accent="yellow"] {
+  --primary: #ffd21f;
+  --primary-foreground: #000;
+}
+
+@theme inline {
+  --font-sans: "Open Sans", system-ui, sans-serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-muted: var(--muted);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --radius-sm: var(--radius);
+  --radius-md: var(--radius);
+  --radius-lg: var(--radius);
+}

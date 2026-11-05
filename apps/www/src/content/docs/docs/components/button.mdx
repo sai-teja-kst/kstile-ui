@@ -1,0 +1,142 @@
+---
+title: Button
+description: A square button with a thick border, in six variants.
+---
+
+import { Code, TabItem, Tabs } from "@astrojs/starlight/components"
+import { ButtonLinkDemo } from "@/components/button-link-demo"
+import PackageManagerTabs from "@/components/package-manager-tabs.astro"
+import { Button } from "@kstile/registry/react/button"
+import buttonSource from "@kstile/registry/react/button.tsx?raw"
+
+export const row = "not-content flex flex-wrap items-center gap-3 py-4"
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class={row}>
+      <Button>Default</Button>
+      <Button variant="secondary">Secondary</Button>
+      <Button variant="outline">Outline</Button>
+      <Button variant="ghost">Ghost</Button>
+      <Button variant="destructive">Destructive</Button>
+      <Button variant="link">Link</Button>
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```tsx
+    <Button>Default</Button>
+    <Button variant="secondary">Secondary</Button>
+    <Button variant="outline">Outline</Button>
+    <Button variant="ghost">Ghost</Button>
+    <Button variant="destructive">Destructive</Button>
+    <Button variant="link">Link</Button>
+    ```
+  </TabItem>
+</Tabs>
+
+## Installation
+
+<Tabs>
+  <TabItem label="CLI">
+    <PackageManagerTabs run="shadcn@latest add @kstile/button" />
+
+    This writes to `components/ui/button.tsx`. If you already have a shadcn button
+    there, the CLI asks before replacing it. The props and variants match, so your
+    existing code keeps working.
+
+  </TabItem>
+  <TabItem label="Manual">
+    Install the dependencies:
+
+    <PackageManagerTabs install="@radix-ui/react-slot class-variance-authority cn" />
+
+    Add `lib/utils.ts` if you don't have it:
+
+    ```ts
+    export { cn } from "cn"
+    ```
+
+    Then copy this into `components/ui/button.tsx`:
+
+    <Code code={buttonSource} lang="tsx" />
+
+  </TabItem>
+</Tabs>
+
+## Examples
+
+### Border width
+
+The border is 3px by default. Pass `borderWidth` to change it, as a number of
+pixels or any CSS length. On filled variants the border matches the fill, so hover
+over these to see the difference.
+
+<div class={row}>
+  <Button borderWidth={2} variant="secondary">2px</Button>
+  <Button variant="secondary">3px</Button>
+  <Button borderWidth={6} variant="secondary">6px</Button>
+  <Button borderWidth="0.5rem" variant="secondary">0.5rem</Button>
+</div>
+
+```tsx
+<Button borderWidth={6}>6px</Button>
+<Button borderWidth="0.5rem">0.5rem</Button>
+```
+
+### Sizes
+
+<div class={row}>
+  <Button size="xs">Extra small</Button>
+  <Button size="sm">Small</Button>
+  <Button>Default</Button>
+  <Button size="lg">Large</Button>
+</div>
+
+The icon sizes, `icon-xs`, `icon-sm`, `icon` and `icon-lg`, make the button a
+square for a single icon. Give it an `aria-label`, since it has no text.
+
+### Disabled
+
+<div class={row}>
+  <Button disabled>Default</Button>
+  <Button disabled variant="secondary">Secondary</Button>
+</div>
+
+### As a link
+
+Use `asChild` to give another element the button's look.
+
+<div class={row}>
+  <ButtonLinkDemo />
+</div>
+
+```tsx
+<Button asChild>
+  <a href="/docs/">Back to the introduction</a>
+</Button>
+```
+
+In Astro, `asChild` only works inside a React component. Children passed from an
+`.astro` or `.mdx` file reach React as plain HTML, so there's no element to merge
+into. Put `buttonVariants()` on the element's `class` instead.
+
+## Usage
+
+```tsx
+import { Button } from "@/components/ui/button"
+
+export function Example() {
+  return <Button variant="outline">Try for free</Button>
+}
+```
+
+## Props
+
+The button also takes every prop of a native `button` element.
+
+| Prop          | Type                                                                                | Default     | Description                                              |
+| ------------- | ----------------------------------------------------------------------------------- | ----------- | -------------------------------------------------------- |
+| `variant`     | `default`, `secondary`, `outline`, `ghost`, `destructive`, `link`                   | `default`   | How the button looks.                                    |
+| `size`        | `default`, `xs`, `sm`, `lg`, `icon`, `icon-xs`, `icon-sm`, `icon-lg`                | `default`   | The button's height and padding.                         |
+| `borderWidth` | `number` or `string`                                                                | 3px         | Border thickness. A number means pixels.                 |
+| `asChild`     | `boolean`                                                                           | `false`     | Passes the button's styles to its child element.         |

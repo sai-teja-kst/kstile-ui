@@ -21,12 +21,12 @@ const luminance = (hex) => {
 }
 const contrastWithBlack = (hex) => (luminance(hex) + 0.05) / 0.05
 
-const css = readFileSync("packages/ui/src/styles/globals.css", "utf8")
+const css = readFileSync("packages/ui/src/styles/tokens.css", "utf8")
 const blocks = [...css.matchAll(/\[data-accent="([\w-]+)"\]\s*{([^}]*)}/g)]
 assert.deepEqual(
   blocks.map(([, name]) => name).sort(),
   Object.keys(ACCENTS).sort(),
-  "globals.css must define exactly the 8 accents",
+  "tokens.css must define exactly the 8 accents",
 )
 
 for (const [, name, body] of blocks) {
@@ -49,14 +49,8 @@ for (const [, name, body] of blocks) {
 const { items } = JSON.parse(
   readFileSync("packages/registry/registry.json", "utf8"),
 )
-assert.deepEqual(
-  items.map((item) => item.name),
-  ["theme"],
-  "phase-0 registry holds only the theme",
-)
-
-const [theme] = items
-assert.equal(theme.type, "registry:theme")
+const theme = items.find((item) => item.type === "registry:theme")
+assert.ok(theme, "the registry must hold the theme")
 for (const mode of ["light", "dark"]) {
   assert.equal(theme.cssVars[mode].primary, ACCENTS.lime, `${mode}: primary`)
   assert.equal(

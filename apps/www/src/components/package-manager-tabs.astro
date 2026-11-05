@@ -1,0 +1,32 @@
+---
+import { Code, TabItem, Tabs } from "@astrojs/starlight/components"
+
+// Pass `run` for a package to execute, or `install` for packages to add.
+type Props = { run: string; install?: never } | { install: string; run?: never }
+
+const { run, install } = Astro.props
+
+const managers = run
+  ? [
+      ["pnpm", `pnpm dlx ${run}`],
+      ["npm", `npx ${run}`],
+      ["yarn", `yarn dlx ${run}`],
+      ["bun", `bunx --bun ${run}`],
+    ]
+  : [
+      ["pnpm", `pnpm add ${install}`],
+      ["npm", `npm install ${install}`],
+      ["yarn", `yarn add ${install}`],
+      ["bun", `bun add ${install}`],
+    ]
+---
+
+<Tabs syncKey="package-manager">
+  {
+    managers.map(([label, code]) => (
+      <TabItem label={label}>
+        <Code code={code} lang="bash" />
+      </TabItem>
+    ))
+  }
+</Tabs>

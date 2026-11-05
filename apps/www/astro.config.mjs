@@ -45,6 +45,10 @@ export default defineConfig({
           label: "Getting started",
           items: [{ label: "Introduction", slug: "docs" }],
         },
+        {
+          label: "Components",
+          items: [{ label: "Button", slug: "docs/components/button" }],
+        },
       ],
     }),
     react(),

@@ -3,6 +3,7 @@
 @import "@astrojs/starlight-tailwind";
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities);
+@import "@workspace/ui/tokens.css";
 
 @theme {
   --font-sans: "Open Sans", system-ui, sans-serif;
@@ -34,7 +35,7 @@
   --color-accent-950: var(--color-gray-950);
 }
 
-.sl-markdown-content a {
+.sl-markdown-content a:not(:where(.not-content *)) {
   color: var(--sl-color-white);
   text-decoration: underline;
   text-underline-offset: 0.2em;

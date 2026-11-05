@@ -4,9 +4,21 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "shadcn build registry.json --output ../../apps/www/public/r"
+    "build": "shadcn build registry.json --output ../../apps/www/public/r",
+    "typecheck": "tsc"
   },
   "devDependencies": {
-    "shadcn": "^4"
+    "@types/react": "^19.3.0",
+    "shadcn": "^4",
+    "typescript": "~6.0.3"
+  },
+  "dependencies": {
+    "@radix-ui/react-slot": "^1.5.0",
+    "class-variance-authority": "^0.7.1",
+    "react": "^19.3.1"
+  },
+  "exports": {
+    "./react/*.tsx": "./react/*.tsx",
+    "./react/*": "./react/*.tsx"
   }
 }
