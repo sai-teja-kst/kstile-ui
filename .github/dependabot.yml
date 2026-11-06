@@ -1,0 +1,22 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    # PR titles become commits on main, so they must pass commitlint, e.g. "chore(deps): bump ...".
+    commit-message:
+      prefix: chore
+      include: scope
+    # One PR a week for minor and patch updates; each major update gets its own PR.
+    groups:
+      dependencies:
+        patterns: ["*"]
+        update-types: [minor, patch]
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: ci
+      include: scope
