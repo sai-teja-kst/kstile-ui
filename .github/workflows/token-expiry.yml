@@ -1,0 +1,28 @@
+name: Token expiry
+
+on:
+  schedule:
+    - cron: "0 6 * * 1" # Mondays
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      # GitHub sends a token's expiry date in a response header. This run fails, and GitHub emails
+      # you, when RELEASE_PLEASE_TOKEN is invalid or expires within 30 days.
+      - env:
+          TOKEN: ${{ secrets.RELEASE_PLEASE_TOKEN }}
+        run: |
+          expiry=$(curl -sSf -D - -o /dev/null -H "Authorization: Bearer $TOKEN" \
+            "https://api.github.com/repos/$GITHUB_REPOSITORY" \
+            | tr -d '\r' | grep -i '^github-authentication-token-expiration:' | cut -d' ' -f2-)
+          if [ -z "$expiry" ]; then echo "RELEASE_PLEASE_TOKEN has no expiry date."; exit 0; fi
+          days=$(( ($(date -d "$expiry" +%s) - $(date +%s)) / 86400 ))
+          echo "RELEASE_PLEASE_TOKEN expires on $expiry, in $days days."
+          if [ "$days" -lt 30 ]; then
+            echo "::error::Renew RELEASE_PLEASE_TOKEN: it expires in $days days."
+            exit 1
+          fi

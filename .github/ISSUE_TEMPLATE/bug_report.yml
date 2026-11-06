@@ -1,0 +1,28 @@
+name: Bug report
+description: Something in a component or the docs doesn't work.
+labels: [bug]
+body:
+  - type: input
+    id: where
+    attributes:
+      label: Component or page
+      placeholder: Button, or /docs/installation/
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What you did, what you expected, and what you saw instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: How to reproduce
+      description: Steps, or a link to a small repo or sandbox.
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      placeholder: React 19.2, Tailwind 4.1, shadcn 3.5, Chrome 142

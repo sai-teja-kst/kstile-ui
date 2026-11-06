@@ -1,0 +1,22 @@
+name: Component or feature request
+description: Suggest a new component, or a change to one.
+labels: [enhancement]
+body:
+  - type: input
+    id: what
+    attributes:
+      label: Component or feature
+      placeholder: Input, or a ghost variant for Button
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: What would you use it for?
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: How should it look or work?
+      description: Sketches, screenshots or links to similar components help.
