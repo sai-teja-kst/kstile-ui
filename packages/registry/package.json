@@ -10,7 +10,7 @@
   "devDependencies": {
     "@types/react": "^19.3.0",
     "shadcn": "^4",
-    "typescript": "~6.0.3"
+    "typescript": "~7.0.2"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.5.0",
