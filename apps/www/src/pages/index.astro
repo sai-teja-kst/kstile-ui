@@ -60,7 +60,7 @@ const accents = [
       </a>
       <nav aria-label="Main">
         <a href="/docs/components/">Components</a>
-        <span>Templates</span>
+        <a href="/docs/templates/">Templates</a>
         <a href="/docs/">Docs</a>
         <a href="/docs/changelog/">Changelog</a>
       </nav>
@@ -118,17 +118,17 @@ const accents = [
         <h2>changelog</h2>
       </a>
 
-      <div class="tile fill flip w" style="--i:6">
+      <a class="tile fill flip w" href="/docs/templates/" style="--i:6">
         <div class="card">
           <div class="face front"><h2>templates</h2></div>
           <div class="face back" aria-hidden="true">
-            <p>Whole pages built from tiles.</p>
+            <p>Whole pages built from tiles. Coming soon.</p>
             <h2>templates</h2>
           </div>
         </div>
-      </div>
+      </a>
 
-      <div class="tile s" style="--i:7"><h2>github</h2></div>
+      <a class="tile s" href="https://github.com/sai-teja-kst/kstile-ui" style="--i:7"><h2>github</h2></a>
 
       <button class="tile theme w" id="theme" type="button" style="--i:8">
         <h2 id="theme-label">light</h2>
@@ -516,7 +516,7 @@ const accents = [
         text-align: left;
       }
       .theme:hover,
-      .changelog:hover,
+      a.tile:not(.flip):hover,
       a.tile:hover .face {
         background: var(--muted);
         color: var(--foreground);

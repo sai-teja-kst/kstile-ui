@@ -14,6 +14,13 @@ export default defineConfig({
     starlight({
       title: "kstile",
       favicon: "/favicon.svg",
+      social: [
+        {
+          icon: "github",
+          label: "GitHub",
+          href: "https://github.com/sai-teja-kst/kstile-ui",
+        },
+      ],
       logo: {
         light: "./src/assets/kstile-mark-light.svg",
         dark: "./src/assets/kstile-mark-dark.svg",
@@ -61,6 +68,7 @@ export default defineConfig({
             { label: "Button", slug: "docs/components/button" },
           ],
         },
+        { label: "Templates", slug: "docs/templates" },
         { label: "Changelog", slug: "docs/changelog" },
       ],
     }),
