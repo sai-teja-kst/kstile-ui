@@ -6,7 +6,13 @@
     "useIgnoreFile": true
   },
   "files": {
-    "includes": ["**", "!docs", "!**/*.svg", "!**/*.md"]
+    "includes": [
+      "**",
+      "!docs",
+      "!**/*.svg",
+      "!**/*.md",
+      "!.release-please-manifest.json"
+    ]
   },
   "formatter": {
     "indentStyle": "space",
