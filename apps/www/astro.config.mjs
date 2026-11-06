@@ -7,6 +7,8 @@ import { defineConfig } from "astro/config"
 
 // https://astro.build/config
 export default defineConfig({
+  // Gives every page a canonical URL and turns on Starlight's sitemap.
+  site: "https://kstile-ui.vercel.app",
   vite: {
     plugins: [tailwindcss()],
   },

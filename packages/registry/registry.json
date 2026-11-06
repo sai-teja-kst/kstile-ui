@@ -1,7 +1,7 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
   "name": "kstile",
-  "homepage": "https://kstile.vercel.app",
+  "homepage": "https://kstile-ui.vercel.app",
   "items": [
     {
       "name": "theme",
