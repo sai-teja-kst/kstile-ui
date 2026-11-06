@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.0](https://github.com/sai-teja-kst/kstile-ui/compare/v0.2.0...v0.3.0) (2026-11-06)
+
+
+### Features
+
+* add sitemap and search metadata ([#11](https://github.com/sai-teja-kst/kstile-ui/issues/11)) ([b786a31](https://github.com/sai-teja-kst/kstile-ui/commit/b786a310f5e289e089bdbb8be454b28dabe3bacd))
+* add tile icons and fit the home page to mobile screens ([#12](https://github.com/sai-teja-kst/kstile-ui/issues/12)) ([c1994e0](https://github.com/sai-teja-kst/kstile-ui/commit/c1994e087268190bbd69f574cabeba29b3321532))
+
 ## [0.2.0](https://github.com/sai-teja-kst/kstile-ui/compare/v0.1.0...v0.2.0) (2026-11-06)
 
 
