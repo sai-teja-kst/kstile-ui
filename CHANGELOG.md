@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.0](https://github.com/sai-teja-kst/kstile-ui/compare/v0.1.0...v0.2.0) (2026-11-06)
+
+
+### Features
+
+* add changelog page and link the home tile ([#7](https://github.com/sai-teja-kst/kstile-ui/issues/7)) ([e442861](https://github.com/sai-teja-kst/kstile-ui/commit/e442861eddf8ae20dd1b5ea92e340eec5e516198))
+* add templates page and link the github tile ([#9](https://github.com/sai-teja-kst/kstile-ui/issues/9)) ([dc3b9b5](https://github.com/sai-teja-kst/kstile-ui/commit/dc3b9b5ed7a03400e57245ee2bf103c7df224156))
+
 ## [0.1.0](https://github.com/sai-teja-kst/kstile-ui/releases/tag/v0.1.0) (2026-11-06)
 
 
