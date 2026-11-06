@@ -22,9 +22,24 @@ const accents = [
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Square, flat tile components for shadcn/ui." />
+    <title>kstile ui: square tile components for shadcn/ui</title>
+    <meta name="description" content="Square, flat tile components for shadcn/ui. Install one with a single command." />
+    <link rel="canonical" href="https://kstile-ui.vercel.app/" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>kstile: tile components for shadcn/ui</title>
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="kstile ui" />
+    <meta property="og:title" content="kstile ui: square tile components for shadcn/ui" />
+    <meta property="og:description" content="Square, flat tile components for shadcn/ui. Install one with a single command." />
+    <meta property="og:url" content="https://kstile-ui.vercel.app/" />
+    <!-- Tells Google the site's name, so "kstile" and "kstile ui" searches can match it. -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      name: "kstile ui",
+      alternateName: ["kstile", "kstile-ui"],
+      url: "https://kstile-ui.vercel.app/",
+    })} />
     <script is:inline define:vars={{ accents }}>
       // Runs before first paint so there's no flash. Shares its theme setting with Starlight.
       const read = (key) => {

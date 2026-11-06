@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kstile-ui.vercel.app/sitemap-index.xml
