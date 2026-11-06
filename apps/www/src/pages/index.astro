@@ -3,6 +3,7 @@ import "@workspace/ui/globals.css"
 import "@fontsource/open-sans/300.css"
 import "@fontsource/open-sans/400.css"
 import "@fontsource/open-sans/600.css"
+import { version } from "../../../../package.json"
 
 const accents = [
   "lime",
@@ -61,7 +62,7 @@ const accents = [
         <a href="/docs/components/">Components</a>
         <span>Templates</span>
         <a href="/docs/">Docs</a>
-        <span>Changelog</span>
+        <a href="/docs/changelog/">Changelog</a>
       </nav>
     </header>
 
@@ -112,7 +113,10 @@ const accents = [
         <button type="button" id="copy">Copy command</button>
       </section>
 
-      <div class="tile w" style="--i:5"><h2>changelog</h2></div>
+      <a class="tile w changelog" href="/docs/changelog/" style="--i:5">
+        <p>v{version}</p>
+        <h2>changelog</h2>
+      </a>
 
       <div class="tile fill flip w" style="--i:6">
         <div class="card">
@@ -482,7 +486,8 @@ const accents = [
         outline-offset: 2px;
       }
 
-      .install {
+      .install,
+      .changelog {
         justify-content: space-between;
         gap: 8px;
       }
@@ -511,6 +516,7 @@ const accents = [
         text-align: left;
       }
       .theme:hover,
+      .changelog:hover,
       a.tile:hover .face {
         background: var(--muted);
         color: var(--foreground);
