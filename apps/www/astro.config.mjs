@@ -61,6 +61,7 @@ export default defineConfig({
             { label: "Button", slug: "docs/components/button" },
           ],
         },
+        { label: "Changelog", slug: "docs/changelog" },
       ],
     }),
     react(),

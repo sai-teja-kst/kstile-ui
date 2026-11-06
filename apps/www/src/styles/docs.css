@@ -49,3 +49,8 @@
   text-decoration: underline;
   text-underline-offset: 0.2em;
 }
+
+/* CHANGELOG.md starts with its own "# Changelog"; the page title already says it. */
+.changelog > h1:first-child {
+  display: none;
+}
