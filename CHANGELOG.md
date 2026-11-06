@@ -1,14 +1,12 @@
 # Changelog
 
-## [0.1.0](https://github.com/sai-teja-kst/kstile-ui/compare/v0.0.1...v0.1.0) (2026-11-06)
+## [0.1.0](https://github.com/sai-teja-kst/kstile-ui/releases/tag/v0.1.0) (2026-11-06)
 
 
 ### Features
 
 * add accent tokens and registry theme ([c490294](https://github.com/sai-teja-kst/kstile-ui/commit/c4902944a89b9714d380e9d1a0e7cc6f5bc14b45))
-* add button component ([747dacf](https://github.com/sai-teja-kst/kstile-ui/commit/747dacf8aecf074401745bd779573baadfc11cef))
 * add button component ([74ce2fb](https://github.com/sai-teja-kst/kstile-ui/commit/74ce2fbe5dca172e59ad8549f66c593761cf2756))
-* add components overview and link the home tile ([648412a](https://github.com/sai-teja-kst/kstile-ui/commit/648412a103036ff7886575b32075f488792b6bce))
 * add components overview and link the home tile ([8279e82](https://github.com/sai-teja-kst/kstile-ui/commit/8279e824f879232a52bca59d3545ed46a412f01a))
 * add Starlight docs with Introduction page ([cd54f37](https://github.com/sai-teja-kst/kstile-ui/commit/cd54f37f7dab4d131b3f51802daffe0fb3974693))
 * add tile home page ([8765318](https://github.com/sai-teja-kst/kstile-ui/commit/8765318940fbbc660f3845f12def17a19ccd11be))
