@@ -78,19 +78,19 @@ The button is React only, and needs Tailwind CSS v4. See
 ### Border width
 
 The border is 3px by default. Pass `borderWidth` to change it, as a number of
-pixels or any CSS length. On filled variants the border matches the fill, so hover
-over these to see the difference.
+pixels or any CSS length. Outline shows its border all the time. On filled
+variants the border matches the fill until you hover.
 
 <div class={row}>
-  <Button borderWidth={2} variant="secondary">2px</Button>
-  <Button variant="secondary">3px</Button>
-  <Button borderWidth={6} variant="secondary">6px</Button>
-  <Button borderWidth="0.5rem" variant="secondary">0.5rem</Button>
+  <Button borderWidth={2} variant="outline">2px</Button>
+  <Button variant="outline">3px</Button>
+  <Button borderWidth={6} variant="outline">6px</Button>
+  <Button borderWidth="0.5rem" variant="outline">0.5rem</Button>
 </div>
 
 ```tsx
-<Button borderWidth={6}>6px</Button>
-<Button borderWidth="0.5rem">0.5rem</Button>
+<Button borderWidth={6} variant="outline">6px</Button>
+<Button borderWidth="0.5rem" variant="outline">0.5rem</Button>
 ```
 
 ### Sizes

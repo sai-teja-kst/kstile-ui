@@ -13,8 +13,9 @@ const buttonVariants = cva(
           "border-primary bg-primary text-primary-foreground hover:border-foreground",
         secondary:
           "border-secondary bg-secondary text-secondary-foreground hover:border-foreground",
+        // The only variant with its border at rest; hover fills it instead.
         outline:
-          "border-transparent bg-transparent text-foreground hover:border-foreground",
+          "border-foreground bg-transparent text-foreground hover:bg-accent hover:text-accent-foreground",
         ghost:
           "border-transparent bg-transparent text-foreground hover:border-accent hover:bg-accent hover:text-accent-foreground",
         // The theme's foreground wins. Without one, white reads on a light theme's
