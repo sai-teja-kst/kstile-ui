@@ -4,6 +4,7 @@ import react from "@astrojs/react"
 import starlight from "@astrojs/starlight"
 import tailwindcss from "@tailwindcss/vite"
 import { defineConfig } from "astro/config"
+import { accents } from "./src/accents.mjs"
 
 // https://astro.build/config
 export default defineConfig({
@@ -26,7 +27,31 @@ export default defineConfig({
         dark: "./src/assets/kstile-mark-dark.svg",
         alt: "",
       },
+      components: {
+        ThemeSelect: "./src/components/theme-select.astro",
+      },
       head: [
+        {
+          // Applies the saved accent before first paint, the same way the home page does.
+          tag: "script",
+          content: `(() => {
+            const accents = ${JSON.stringify(accents)}
+            const apply = () => {
+              let accent
+              try {
+                accent = localStorage.getItem("kstile-accent")
+              } catch {}
+              document.documentElement.dataset.accent = accents.includes(accent) ? accent : "lime"
+              for (const radio of document.querySelectorAll("kstile-accent-picker input")) {
+                radio.checked = radio.value === document.documentElement.dataset.accent
+              }
+            }
+            apply()
+            addEventListener("pageshow", (event) => {
+              if (event.persisted) apply()
+            })
+          })()`,
+        },
         {
           // Starlight applies the theme only on load, so a page restored from the
           // back-forward cache would miss a change made on the home page.

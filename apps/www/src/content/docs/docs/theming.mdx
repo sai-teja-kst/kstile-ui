@@ -7,7 +7,7 @@ import PackageManagerTabs from "@/components/package-manager-tabs.astro"
 
 export const accents = [
   ["lime", "#b4e600"],
-  ["green", "#16c172"],
+  ["mono", "#000 / #fff"],
   ["teal", "#00b8b0"],
   ["blue", "#2f8cff"],
   ["magenta", "#ee2f96"],
@@ -59,7 +59,7 @@ Lime is the default. Eight accents are available:
 
 <div class="not-content" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:6px;margin-block:1rem">
   {accents.map(([name, value]) => (
-    <div style={`background:${value};color:#000;padding:28px 10px 8px;font-size:13px;font-weight:600`}>
+    <div style={`${name === "mono" ? "background:var(--sl-color-white);color:var(--sl-color-black)" : `background:${value};color:#000`};padding:28px 10px 8px;font-size:13px;font-weight:600`}>
       {name}
       <br />
       <span style="font-weight:400">{value}</span>
@@ -84,6 +84,7 @@ To use another, set `--primary` in both blocks of your CSS file:
 Two rules keep accents readable:
 
 - **Always put black text on an accent.** Every accent reaches at least 5.5:1
-  with black.
+  with black. Mono is the exception: it's black with white text in light mode,
+  and white with black text in dark mode, so set it per block.
 - **Never use an accent as text on a light background.** Lime on white is only
   1.5:1, which is far too faint to read.
