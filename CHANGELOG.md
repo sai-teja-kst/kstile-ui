@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.4.0](https://github.com/sai-teja-kst/kstile-ui/compare/v0.3.0...v0.4.0) (2026-11-08)
+
+
+### Features
+
+* add the mono accent and an accent picker in the docs ([#20](https://github.com/sai-teja-kst/kstile-ui/issues/20)) ([4a4eb10](https://github.com/sai-teja-kst/kstile-ui/commit/4a4eb10500a4f097347d6375867c1326b1e6b459))
+* add the tile component ([#18](https://github.com/sai-teja-kst/kstile-ui/issues/18)) ([f79de23](https://github.com/sai-teja-kst/kstile-ui/commit/f79de23e1dae73ff5aadcd0a4cfb084915bb3f3c))
+
+
+### Bug Fixes
+
+* show the outline button border at rest ([#17](https://github.com/sai-teja-kst/kstile-ui/issues/17)) ([04f4faf](https://github.com/sai-teja-kst/kstile-ui/commit/04f4faf59d79650632fe2252c33ae7d750eb99f0))
+
 ## [0.3.0](https://github.com/sai-teja-kst/kstile-ui/compare/v0.2.0...v0.3.0) (2026-11-06)
 
 
