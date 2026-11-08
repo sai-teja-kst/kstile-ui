@@ -49,17 +49,26 @@ export const grid = "not-content grid auto-rows-[9rem] grid-cols-2 gap-2 py-4 sm
       </Tile>
       <Tile asChild className="col-span-2">
         <a href="/docs/installation/">
-          <TileFront>
-            <TileIcon>
-              <TileArrow />
-            </TileIcon>
-            <TileTitle>installation</TileTitle>
-          </TileFront>
-          <TileBack>
-            <TileDescription>One command, and the code is yours.</TileDescription>
-            <TileTitle>installation</TileTitle>
-          </TileBack>
+          <TileIcon>
+            <TileArrow />
+          </TileIcon>
+          <TileTitle>installation</TileTitle>
         </a>
+      </Tile>
+      <Tile className="col-span-2">
+        <TileIcon>
+          <Sun />
+        </TileIcon>
+        <TileTitle>light</TileTitle>
+      </Tile>
+      <Tile variant="fill" className="col-span-2">
+        <TileFront>
+          <TileTitle>templates</TileTitle>
+        </TileFront>
+        <TileBack>
+          <TileDescription>Whole pages built from tiles.</TileDescription>
+          <TileTitle>templates</TileTitle>
+        </TileBack>
       </Tile>
     </div>
     ```
@@ -67,7 +76,7 @@ export const grid = "not-content grid auto-rows-[9rem] grid-cols-2 gap-2 py-4 sm
 </Tabs>
 
 A tile fills the grid cell you put it in, so the layout stays yours. Hover the
-installation tile to see it flip.
+templates tile to see it flip.
 
 ## Installation
 
@@ -210,14 +219,6 @@ focus. Hover this one:
       <TileTitle>templates</TileTitle>
     </TileBack>
   </Tile>
-  <Tile flipped>
-    <TileFront>
-      <TileTitle>front</TileTitle>
-    </TileFront>
-    <TileBack>
-      <TileTitle>back</TileTitle>
-    </TileBack>
-  </Tile>
 </div>
 
 ```tsx
@@ -233,11 +234,96 @@ focus. Hover this one:
 ```
 
 Pass `flipped` to choose the side yourself, for example from a timer. Then hover
-and focus leave it alone. The second tile above has `flipped` set.
+and focus leave it alone.
+
+```tsx
+<Tile flipped={showBack}>
+  <TileFront>…</TileFront>
+  <TileBack>…</TileBack>
+</Tile>
+```
 
 Screen readers only read the front, so keep the back decorative and put nothing
 focusable on it. With reduced motion turned on, the faces swap without turning.
 Touch screens don't hover, so there a tile only flips through `flipped`.
+
+### Transitions
+
+`transition` sets how a flip tile turns to its back. The default is `flip-up`.
+Hover each one:
+
+<div class={grid}>
+  <Tile variant="fill" transition="flip-up">
+    <TileFront>
+      <TileTitle>flip-up</TileTitle>
+    </TileFront>
+    <TileBack className="bg-foreground text-background">
+      <TileTitle>flip-up</TileTitle>
+    </TileBack>
+  </Tile>
+  <Tile variant="fill" transition="flip-down">
+    <TileFront>
+      <TileTitle>flip-down</TileTitle>
+    </TileFront>
+    <TileBack className="bg-foreground text-background">
+      <TileTitle>flip-down</TileTitle>
+    </TileBack>
+  </Tile>
+  <Tile variant="fill" transition="flip-left">
+    <TileFront>
+      <TileTitle>flip-left</TileTitle>
+    </TileFront>
+    <TileBack className="bg-foreground text-background">
+      <TileTitle>flip-left</TileTitle>
+    </TileBack>
+  </Tile>
+  <Tile variant="fill" transition="flip-right">
+    <TileFront>
+      <TileTitle>flip-right</TileTitle>
+    </TileFront>
+    <TileBack className="bg-foreground text-background">
+      <TileTitle>flip-right</TileTitle>
+    </TileBack>
+  </Tile>
+  <Tile variant="fill" transition="slide-up">
+    <TileFront>
+      <TileTitle>slide-up</TileTitle>
+    </TileFront>
+    <TileBack className="bg-foreground text-background">
+      <TileTitle>slide-up</TileTitle>
+    </TileBack>
+  </Tile>
+  <Tile variant="fill" transition="slide-left">
+    <TileFront>
+      <TileTitle>slide-left</TileTitle>
+    </TileFront>
+    <TileBack className="bg-foreground text-background">
+      <TileTitle>slide-left</TileTitle>
+    </TileBack>
+  </Tile>
+  <Tile variant="fill" transition="fade">
+    <TileFront>
+      <TileTitle>fade</TileTitle>
+    </TileFront>
+    <TileBack className="bg-foreground text-background">
+      <TileTitle>fade</TileTitle>
+    </TileBack>
+  </Tile>
+</div>
+
+```tsx
+<Tile variant="fill" transition="flip-left">
+  <TileFront>
+    <TileTitle>flip-left</TileTitle>
+  </TileFront>
+  <TileBack className="bg-foreground text-background">
+    <TileTitle>flip-left</TileTitle>
+  </TileBack>
+</Tile>
+```
+
+The slides and the fade stay flat, so they suit tiles in tight grids where a 3D
+turn feels busy. Every transition works with `flipped` too.
 
 ### In a grid
 
@@ -245,6 +331,38 @@ A tile stretches to fill its grid cell, so size it with your grid's classes,
 such as `col-span-2` and `auto-rows-[9rem]`. Outside a grid it's as tall as its
 content. A flip tile's faces don't count toward that, so give a flip tile on its
 own a height, such as `h-36`.
+
+<div class={grid}>
+  <Tile variant="fill" className="col-span-2 row-span-2">
+    <TileTitle>2 × 2</TileTitle>
+  </Tile>
+  <Tile>
+    <TileTitle>1 × 1</TileTitle>
+  </Tile>
+  <Tile>
+    <TileTitle>1 × 1</TileTitle>
+  </Tile>
+  <Tile className="col-span-2">
+    <TileTitle>2 × 1</TileTitle>
+  </Tile>
+</div>
+
+```tsx
+<div className="grid auto-rows-[9rem] grid-cols-4 gap-2">
+  <Tile variant="fill" className="col-span-2 row-span-2">
+    <TileTitle>2 × 2</TileTitle>
+  </Tile>
+  <Tile>
+    <TileTitle>1 × 1</TileTitle>
+  </Tile>
+  <Tile>
+    <TileTitle>1 × 1</TileTitle>
+  </Tile>
+  <Tile className="col-span-2">
+    <TileTitle>2 × 1</TileTitle>
+  </Tile>
+</div>
+```
 
 ## Usage
 
@@ -269,6 +387,7 @@ export function Example() {
 | `variant`   | `default`, `fill`     | `default` | The tile's colour.                                          |
 | `asChild`   | `boolean`             | `false`   | Passes the tile's styles to its child element.              |
 | `flipped`   | `boolean`             |           | Shows the back. Leave it out to flip on hover and focus.    |
+| `transition` | `flip-up`, `flip-down`, `flip-left`, `flip-right`, `slide-up`, `slide-left`, `fade` | `flip-up` | How a flip tile turns to its back. |
 | `className` | `string`              |           | Extra classes. Where they clash with the tile's, yours win. |
 
 | Part              | Renders | Use                                       |

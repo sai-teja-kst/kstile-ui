@@ -14,9 +14,26 @@ const tileVariants = cva(
         default: "text-foreground [--tile-bg:var(--color-muted)]",
         fill: "text-primary-foreground [--tile-bg:var(--color-primary)]",
       },
+      // How a flip tile turns to its back. --tile-out moves the front away and
+      // --tile-in is where the back starts.
+      transition: {
+        "flip-up": "[--tile-out:rotateX(180deg)] [--tile-in:rotateX(-180deg)]",
+        "flip-down":
+          "[--tile-out:rotateX(-180deg)] [--tile-in:rotateX(180deg)]",
+        "flip-left":
+          "[--tile-out:rotateY(180deg)] [--tile-in:rotateY(-180deg)]",
+        "flip-right":
+          "[--tile-out:rotateY(-180deg)] [--tile-in:rotateY(180deg)]",
+        "slide-up":
+          "[--tile-out:translateY(-100%)] [--tile-in:translateY(100%)]",
+        "slide-left":
+          "[--tile-out:translateX(-100%)] [--tile-in:translateX(100%)]",
+        fade: "[--tile-in-opacity:0] [--tile-in:none] [--tile-out-opacity:0] [--tile-out:none]",
+      },
     },
     defaultVariants: {
       variant: "default",
+      transition: "flip-up",
     },
   },
 )
@@ -24,6 +41,7 @@ const tileVariants = cva(
 function Tile({
   className,
   variant = "default",
+  transition = "flip-up",
   asChild = false,
   flipped,
   ...props
@@ -38,10 +56,11 @@ function Tile({
     <Comp
       data-slot="tile"
       data-variant={variant}
+      data-transition={transition}
       // Without a flipped prop, a flip tile turns on hover and keyboard focus.
       data-flip={flipped === undefined ? "hover" : undefined}
       data-flipped={flipped}
-      className={cn(tileVariants({ variant, className }))}
+      className={cn(tileVariants({ variant, transition, className }))}
       {...props}
     />
   )
@@ -104,7 +123,7 @@ function TileArrow({ className, ...props }: React.ComponentProps<"svg">) {
 }
 
 const face =
-  "absolute inset-0 flex flex-col justify-end gap-1.5 bg-(--tile-bg) p-4 backface-hidden transition-transform duration-700 ease-[cubic-bezier(0.3,0.8,0.2,1)] motion-reduce:transition-none"
+  "absolute inset-0 flex flex-col justify-end gap-1.5 bg-(--tile-bg) p-4 backface-hidden transition-[transform,opacity] duration-700 ease-[cubic-bezier(0.3,0.8,0.2,1)] motion-reduce:transition-none"
 
 function TileFront({ className, ...props }: React.ComponentProps<"div">) {
   return (
@@ -112,7 +131,7 @@ function TileFront({ className, ...props }: React.ComponentProps<"div">) {
       data-slot="tile-front"
       className={cn(
         face,
-        "group-data-[flipped=true]/tile:-rotate-x-180 group-data-[flip=hover]/tile:group-hover/tile:-rotate-x-180 group-data-[flip=hover]/tile:group-focus-visible/tile:-rotate-x-180",
+        "group-data-[flipped=true]/tile:[opacity:var(--tile-out-opacity,1)] group-data-[flipped=true]/tile:[transform:var(--tile-out)] group-data-[flip=hover]/tile:group-hover/tile:[opacity:var(--tile-out-opacity,1)] group-data-[flip=hover]/tile:group-hover/tile:[transform:var(--tile-out)] group-data-[flip=hover]/tile:group-focus-visible/tile:[opacity:var(--tile-out-opacity,1)] group-data-[flip=hover]/tile:group-focus-visible/tile:[transform:var(--tile-out)]",
         className,
       )}
       {...props}
@@ -128,7 +147,7 @@ function TileBack({ className, ...props }: React.ComponentProps<"div">) {
       aria-hidden="true"
       className={cn(
         face,
-        "rotate-x-180 group-data-[flipped=true]/tile:rotate-x-0 group-data-[flip=hover]/tile:group-hover/tile:rotate-x-0 group-data-[flip=hover]/tile:group-focus-visible/tile:rotate-x-0",
+        "[opacity:var(--tile-in-opacity,1)] [transform:var(--tile-in)] group-data-[flipped=true]/tile:[opacity:1] group-data-[flipped=true]/tile:[transform:none] group-data-[flip=hover]/tile:group-hover/tile:[opacity:1] group-data-[flip=hover]/tile:group-hover/tile:[transform:none] group-data-[flip=hover]/tile:group-focus-visible/tile:[opacity:1] group-data-[flip=hover]/tile:group-focus-visible/tile:[transform:none]",
         className,
       )}
       {...props}
