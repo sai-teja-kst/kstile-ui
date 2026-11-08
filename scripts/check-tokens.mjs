@@ -4,7 +4,6 @@ import { readFileSync } from "node:fs"
 
 const ACCENTS = {
   lime: "#b4e600",
-  green: "#16c172",
   teal: "#00b8b0",
   blue: "#2f8cff",
   magenta: "#ee2f96",
@@ -22,11 +21,24 @@ const luminance = (hex) => {
 const contrastWithBlack = (hex) => (luminance(hex) + 0.05) / 0.05
 
 const css = readFileSync("packages/ui/src/styles/tokens.css", "utf8")
-const blocks = [...css.matchAll(/\[data-accent="([\w-]+)"\]\s*{([^}]*)}/g)]
+// Mono flips with the theme, so it's checked on its own below.
+const blocks = [
+  ...css.matchAll(/^\[data-accent="([\w-]+)"\]\s*{([^}]*)}/gm),
+].filter(([, name]) => name !== "mono")
 assert.deepEqual(
   blocks.map(([, name]) => name).sort(),
   Object.keys(ACCENTS).sort(),
-  "tokens.css must define exactly the 8 accents",
+  "tokens.css must define exactly the 7 colour accents",
+)
+assert.match(
+  css,
+  /^\[data-accent="mono"\]\s*{\s*--primary:\s*#000;\s*--primary-foreground:\s*#fff;/m,
+  "mono: black with white text on light",
+)
+assert.match(
+  css,
+  /\[data-theme="dark"\] \[data-accent="mono"\]\s*{\s*--primary:\s*#fff;\s*--primary-foreground:\s*#000;/,
+  "mono: white with black text on dark",
 )
 
 for (const [, name, body] of blocks) {
@@ -62,4 +74,4 @@ for (const mode of ["light", "dark"]) {
 assert.equal(theme.cssVars.light.radius, "0rem")
 assert.match(theme.cssVars.theme["font-sans"], /Open Sans/)
 
-console.log("tokens ok: 8 accents, registry theme in step")
+console.log("tokens ok: 7 colour accents and mono, registry theme in step")

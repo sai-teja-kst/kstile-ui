@@ -4,17 +4,7 @@ import "@fontsource/open-sans/300.css"
 import "@fontsource/open-sans/400.css"
 import "@fontsource/open-sans/600.css"
 import { version } from "../../../../package.json"
-
-const accents = [
-  "lime",
-  "green",
-  "teal",
-  "blue",
-  "magenta",
-  "red",
-  "orange",
-  "yellow",
-]
+import { accents } from "../accents.mjs"
 ---
 
 <!doctype html>
@@ -100,7 +90,7 @@ const accents = [
         <div class="card">
           <div class="face front"><h2>docs</h2></div>
           <div class="face back" aria-hidden="true">
-            <p>Install a component and make it yours.</p>
+            <div class="mini page"><i></i><i></i><i></i><i></i><i></i></div>
             <h2>docs</h2>
           </div>
         </div>
@@ -431,7 +421,7 @@ const accents = [
         min-height: 0;
       }
       .mini i {
-        background: var(--primary-foreground);
+        background: currentColor;
         opacity: 0.9;
       }
       .mini i:nth-child(1) {
@@ -444,6 +434,29 @@ const accents = [
       .mini i:nth-child(5) {
         grid-column: span 4;
         opacity: 0.55;
+      }
+
+      /* the docs tile draws a page: a heading, then lines of text */
+      .mini.page {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        grid-template-rows: 2fr repeat(4, 1fr);
+      }
+      .mini.page i {
+        grid-row: auto;
+        opacity: 0.55;
+      }
+      .mini.page i:nth-child(1) {
+        grid-column: span 4;
+        opacity: 0.9;
+      }
+      .mini.page i:nth-child(n + 2) {
+        grid-column: 1 / -1;
+      }
+      .mini.page i:nth-child(3) {
+        grid-column: 1 / span 5;
+      }
+      .mini.page i:nth-child(5) {
+        grid-column: 1 / span 3;
       }
 
       .picker fieldset {

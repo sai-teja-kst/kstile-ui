@@ -33,8 +33,14 @@
   --primary: #b4e600;
   --primary-foreground: #000;
 }
-[data-accent="green"] {
-  --primary: #16c172;
+/* Mono follows the theme: black on light, white on dark. */
+[data-accent="mono"] {
+  --primary: #000;
+  --primary-foreground: #fff;
+}
+[data-theme="dark"][data-accent="mono"],
+[data-theme="dark"] [data-accent="mono"] {
+  --primary: #fff;
   --primary-foreground: #000;
 }
 [data-accent="teal"] {

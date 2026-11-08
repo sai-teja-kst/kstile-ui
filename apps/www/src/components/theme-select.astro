@@ -1,0 +1,87 @@
+---
+// Replaces Starlight's ThemeSelect so the header and mobile menu get an accent picker beside it.
+import Default from "@astrojs/starlight/components/ThemeSelect.astro"
+import { accents } from "../accents.mjs"
+
+// The header and the mobile menu each render one, and each needs its own radio group.
+const name = `kstile-accent-${Math.random().toString(36).slice(2, 8)}`
+---
+
+<div class="pickers">
+  <kstile-accent-picker>
+    <fieldset>
+      <legend class="sr-only">Accent</legend>
+      {
+        accents.map((accent) => (
+          <label data-accent={accent} title={accent}>
+            <input type="radio" name={name} value={accent} />
+            <span class="sr-only">{accent}</span>
+          </label>
+        ))
+      }
+    </fieldset>
+  </kstile-accent-picker>
+  <Default />
+</div>
+
+<script>
+  class AccentPicker extends HTMLElement {
+    connectedCallback() {
+      const root = document.documentElement
+      const radios = this.querySelectorAll("input")
+      for (const radio of radios) {
+        radio.checked = radio.value === root.dataset.accent
+        radio.addEventListener("change", () => {
+          root.dataset.accent = radio.value
+          try {
+            localStorage.setItem("kstile-accent", radio.value)
+          } catch {}
+          // Keep the other picker (header or mobile menu) on the same accent.
+          for (const other of document.querySelectorAll<HTMLInputElement>(
+            "kstile-accent-picker input",
+          )) {
+            other.checked = other.value === radio.value
+          }
+        })
+      }
+    }
+  }
+  customElements.define("kstile-accent-picker", AccentPicker)
+</script>
+
+<style>
+  .pickers {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+  fieldset {
+    display: flex;
+    gap: 0.375rem;
+    border: 0;
+    margin: 0;
+    padding: 0;
+  }
+  label {
+    position: relative;
+    width: 0.875rem;
+    height: 0.875rem;
+    background: var(--primary);
+    cursor: pointer;
+  }
+  label:has(input:checked) {
+    outline: 2px solid var(--sl-color-white);
+    outline-offset: 2px;
+  }
+  label:has(input:focus-visible) {
+    outline: 2px solid var(--sl-color-white);
+    outline-offset: 4px;
+  }
+  input {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+</style>
