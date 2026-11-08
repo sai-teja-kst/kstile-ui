@@ -68,6 +68,7 @@ export default defineConfig({
           items: [
             { label: "Overview", slug: "docs/components" },
             { label: "Button", slug: "docs/components/button" },
+            { label: "Tile", slug: "docs/components/tile" },
           ],
         },
         { label: "Templates", slug: "docs/templates" },

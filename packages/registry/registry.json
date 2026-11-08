@@ -37,6 +37,20 @@
           "type": "registry:ui"
         }
       ]
+    },
+    {
+      "name": "tile",
+      "type": "registry:ui",
+      "title": "Tile",
+      "description": "A square, flat block for content or links, with an optional flip.",
+      "dependencies": ["@radix-ui/react-slot", "class-variance-authority"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "react/tile.tsx",
+          "type": "registry:ui"
+        }
+      ]
     }
   ]
 }
