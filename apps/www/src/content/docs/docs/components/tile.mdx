@@ -1,6 +1,6 @@
 ---
 title: Tile
-description: A square, flat block for content or links, with an optional flip.
+description: A square, flat block for content or links, in a grid of four sizes, with an optional flip.
 ---
 
 import { Code, TabItem, Tabs } from "@astrojs/starlight/components"
@@ -11,6 +11,7 @@ import {
   TileBack,
   TileDescription,
   TileFront,
+  TileGrid,
   TileIcon,
   TileTitle,
 } from "@kstile/registry/react/tile"
@@ -26,8 +27,8 @@ export const grid = "not-content grid auto-rows-[9rem] grid-cols-2 gap-2 py-4 sm
   </TabItem>
   <TabItem label="Code">
     ```tsx
-    <div className="grid auto-rows-[8.5rem] grid-cols-2 gap-2 sm:grid-cols-4">
-      <Tile variant="fill" className="col-span-2 row-span-2">
+    <TileGrid className="auto-rows-[8.5rem]">
+      <Tile variant="fill" size="medium">
         <TileDescription>Button and Tile, so far.</TileDescription>
         <TileTitle className="text-5xl">2 components</TileTitle>
       </Tile>
@@ -47,7 +48,7 @@ export const grid = "not-content grid auto-rows-[9rem] grid-cols-2 gap-2 py-4 sm
           <TileTitle>theming</TileTitle>
         </a>
       </Tile>
-      <Tile asChild className="col-span-2">
+      <Tile asChild size="wide">
         <a href="/docs/installation/">
           <TileIcon>
             <TileArrow />
@@ -55,13 +56,13 @@ export const grid = "not-content grid auto-rows-[9rem] grid-cols-2 gap-2 py-4 sm
           <TileTitle>installation</TileTitle>
         </a>
       </Tile>
-      <Tile className="col-span-2">
+      <Tile size="wide">
         <TileIcon>
           <Sun />
         </TileIcon>
         <TileTitle>light</TileTitle>
       </Tile>
-      <Tile variant="fill" className="col-span-2">
+      <Tile variant="fill" size="wide">
         <TileFront>
           <TileTitle>templates</TileTitle>
         </TileFront>
@@ -70,12 +71,12 @@ export const grid = "not-content grid auto-rows-[9rem] grid-cols-2 gap-2 py-4 sm
           <TileTitle>templates</TileTitle>
         </TileBack>
       </Tile>
-    </div>
+    </TileGrid>
     ```
   </TabItem>
 </Tabs>
 
-A tile fills the grid cell you put it in, so the layout stays yours. Hover the
+Put tiles in a [`TileGrid`](#in-a-grid) and size them with `size`. Hover the
 templates tile to see it flip.
 
 ## Installation
@@ -140,7 +141,7 @@ Content sits at the bottom of the tile. Put the description first to show it
 above the title.
 
 <div class={grid}>
-  <Tile className="col-span-2">
+  <Tile size="wide">
     <TileDescription>Install a component and make it yours.</TileDescription>
     <TileTitle>docs</TileTitle>
   </Tile>
@@ -327,42 +328,67 @@ turn feels busy. Every transition works with `flipped` too.
 
 ### In a grid
 
-A tile stretches to fill its grid cell, so size it with your grid's classes,
-such as `col-span-2` and `auto-rows-[9rem]`. Outside a grid it's as tall as its
-content. A flip tile's faces don't count toward that, so give a flip tile on its
-own a height, such as `h-36`.
+`TileGrid` lays tiles out in rows of 9rem: 2 columns on small screens and 4
+from `sm` up. Each tile's `size` sets how many cells it covers.
 
-<div class={grid}>
-  <Tile variant="fill" className="col-span-2 row-span-2">
-    <TileTitle>2 × 2</TileTitle>
+<TileGrid className="not-content my-4">
+  <Tile variant="fill" size="large">
+    <TileTitle>large</TileTitle>
+  </Tile>
+  <Tile variant="fill" size="medium">
+    <TileTitle>medium</TileTitle>
   </Tile>
   <Tile>
-    <TileTitle>1 × 1</TileTitle>
+    <TileTitle>small</TileTitle>
   </Tile>
   <Tile>
-    <TileTitle>1 × 1</TileTitle>
+    <TileTitle>small</TileTitle>
   </Tile>
-  <Tile className="col-span-2">
-    <TileTitle>2 × 1</TileTitle>
+  <Tile size="wide">
+    <TileTitle>wide</TileTitle>
   </Tile>
-</div>
+</TileGrid>
 
 ```tsx
-<div className="grid auto-rows-[9rem] grid-cols-4 gap-2">
-  <Tile variant="fill" className="col-span-2 row-span-2">
-    <TileTitle>2 × 2</TileTitle>
+<TileGrid>
+  <Tile variant="fill" size="large">
+    <TileTitle>large</TileTitle>
+  </Tile>
+  <Tile variant="fill" size="medium">
+    <TileTitle>medium</TileTitle>
   </Tile>
   <Tile>
-    <TileTitle>1 × 1</TileTitle>
+    <TileTitle>small</TileTitle>
   </Tile>
   <Tile>
-    <TileTitle>1 × 1</TileTitle>
+    <TileTitle>small</TileTitle>
   </Tile>
-  <Tile className="col-span-2">
-    <TileTitle>2 × 1</TileTitle>
+  <Tile size="wide">
+    <TileTitle>wide</TileTitle>
   </Tile>
-</div>
+</TileGrid>
 ```
+
+| Size     | Covers                      |
+| -------- | --------------------------- |
+| `small`  | 1 column, 1 row. The default. |
+| `wide`   | 2 columns, 1 row.           |
+| `medium` | 2 columns, 2 rows.          |
+| `large`  | The whole row, 2 rows tall. |
+
+Change the columns, row height or gap with classes. Yours win over the grid's:
+
+```tsx
+<TileGrid className="auto-rows-[7rem] gap-1 sm:grid-cols-6">…</TileGrid>
+```
+
+Tiles fill the grid in source order, so a wide tile that doesn't fit in a row
+leaves a gap. `grid-flow-dense` fills those gaps, but it moves tiles out of
+source order, so keyboard focus jumps around. Avoid it on a grid of links.
+
+A tile works in any grid of your own too. Outside a grid it's as tall as its
+content. A flip tile's faces don't count toward that, so give a flip tile on its
+own a height, such as `h-36`.
 
 ## Usage
 
@@ -388,6 +414,7 @@ export function Example() {
 | `asChild`   | `boolean`             | `false`   | Passes the tile's styles to its child element.              |
 | `flipped`   | `boolean`             |           | Shows the back. Leave it out to flip on hover and focus.    |
 | `transition` | `flip-up`, `flip-down`, `flip-left`, `flip-right`, `slide-up`, `slide-left`, `fade` | `flip-up` | How a flip tile turns to its back. |
+| `size`      | `small`, `wide`, `medium`, `large` | `small` | The cells it covers in a grid. |
 | `className` | `string`              |           | Extra classes. Where they clash with the tile's, yours win. |
 
 | Part              | Renders | Use                                       |
@@ -398,6 +425,7 @@ export function Example() {
 | `TileArrow`       | `svg`   | kstile's square arrow for link tiles.     |
 | `TileFront`       | `div`   | The side shown at rest on a flip tile.    |
 | `TileBack`        | `div`   | The side shown on hover, focus or `flipped`. |
+| `TileGrid`        | `div`   | The grid that tiles sit in, sized by `size`. |
 
 ## Troubleshooting
 

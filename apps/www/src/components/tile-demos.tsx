@@ -4,6 +4,7 @@ import {
   TileBack,
   TileDescription,
   TileFront,
+  TileGrid,
   TileIcon,
   TileTitle,
 } from "@kstile/registry/react/tile"
@@ -29,8 +30,8 @@ function SunIcon() {
 
 export function TileGridDemo() {
   return (
-    <div className="grid w-full auto-rows-[8.5rem] grid-cols-2 gap-2 sm:grid-cols-4">
-      <Tile variant="fill" className="col-span-2 row-span-2">
+    <TileGrid className="auto-rows-[8.5rem]">
+      <Tile variant="fill" size="medium">
         <TileDescription>Button and Tile, so far.</TileDescription>
         <TileTitle className="text-5xl">2 components</TileTitle>
       </Tile>
@@ -50,7 +51,7 @@ export function TileGridDemo() {
           <TileTitle>theming</TileTitle>
         </a>
       </Tile>
-      <Tile asChild className="col-span-2">
+      <Tile asChild size="wide">
         <a href="/docs/installation/">
           <TileIcon>
             <TileArrow />
@@ -58,13 +59,13 @@ export function TileGridDemo() {
           <TileTitle>installation</TileTitle>
         </a>
       </Tile>
-      <Tile className="col-span-2">
+      <Tile size="wide">
         <TileIcon>
           <SunIcon />
         </TileIcon>
         <TileTitle>light</TileTitle>
       </Tile>
-      <Tile variant="fill" className="col-span-2">
+      <Tile variant="fill" size="wide">
         <TileFront>
           <TileTitle>templates</TileTitle>
         </TileFront>
@@ -73,7 +74,7 @@ export function TileGridDemo() {
           <TileTitle>templates</TileTitle>
         </TileBack>
       </Tile>
-    </div>
+    </TileGrid>
   )
 }
 

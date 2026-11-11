@@ -42,7 +42,7 @@
       "name": "tile",
       "type": "registry:ui",
       "title": "Tile",
-      "description": "A square, flat block for content or links, with an optional flip.",
+      "description": "A square, flat block for content or links, in a grid of four sizes, with an optional flip.",
       "dependencies": ["@radix-ui/react-slot", "class-variance-authority"],
       "registryDependencies": ["utils"],
       "files": [
