@@ -30,10 +30,19 @@ const tileVariants = cva(
           "[--tile-out:translateX(-100%)] [--tile-in:translateX(100%)]",
         fade: "[--tile-in-opacity:0] [--tile-in:none] [--tile-out-opacity:0] [--tile-out:none]",
       },
+      // Cells it covers in a TileGrid. Large spans the whole row, so it still
+      // fits when the grid drops to 2 columns.
+      size: {
+        small: "",
+        wide: "col-span-2",
+        medium: "col-span-2 row-span-2",
+        large: "col-span-full row-span-2",
+      },
     },
     defaultVariants: {
       variant: "default",
       transition: "flip-up",
+      size: "small",
     },
   },
 )
@@ -42,6 +51,7 @@ function Tile({
   className,
   variant = "default",
   transition = "flip-up",
+  size = "small",
   asChild = false,
   flipped,
   ...props
@@ -57,10 +67,26 @@ function Tile({
       data-slot="tile"
       data-variant={variant}
       data-transition={transition}
+      data-size={size}
       // Without a flipped prop, a flip tile turns on hover and keyboard focus.
       data-flip={flipped === undefined ? "hover" : undefined}
       data-flipped={flipped}
-      className={cn(tileVariants({ variant, transition, className }))}
+      className={cn(tileVariants({ variant, transition, size, className }))}
+      {...props}
+    />
+  )
+}
+
+// 2 columns on small screens and 4 from sm up. Change the columns, row height
+// or gap with classes, such as sm:grid-cols-6 or auto-rows-[7rem].
+function TileGrid({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="tile-grid"
+      className={cn(
+        "grid auto-rows-[9rem] grid-cols-2 gap-2 sm:grid-cols-4",
+        className,
+      )}
       {...props}
     />
   )
@@ -161,6 +187,7 @@ export {
   TileBack,
   TileDescription,
   TileFront,
+  TileGrid,
   TileIcon,
   TileTitle,
   tileVariants,
