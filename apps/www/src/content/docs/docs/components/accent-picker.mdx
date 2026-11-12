@@ -1,0 +1,294 @@
+---
+title: Accent picker
+description: A square in the current accent that opens a row of 8 accent swatches.
+---
+
+import { Code, TabItem, Tabs } from "@astrojs/starlight/components"
+import {
+  AccentPickerCloseDemo,
+  AccentPickerDemo,
+  AccentPickerNamesDemo,
+  AccentPickerSwatchesDemo,
+} from "@/components/accent-picker-demos"
+import PackageManagerTabs from "@/components/package-manager-tabs.astro"
+import pickerSource from "@kstile/registry/react/accent-picker.tsx?raw"
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="not-content py-4">
+      <AccentPickerDemo client:load />
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```tsx
+    <AccentPicker>
+      <header className="flex h-14 items-center gap-2 pr-2 pl-4">
+        <span className="mr-auto text-xl font-semibold">kstile</span>
+        <AccentPickerTrigger />
+      </header>
+      <AccentPickerSwatches className="px-4 pb-3" />
+    </AccentPicker>
+    ```
+  </TabItem>
+</Tabs>
+
+Tap the square to open the row, then pick an accent. The whole page follows,
+because the picker sets `data-accent` on `<html>` and saves it for the next
+visit. The row pushes the page down instead of floating over it, so it fits a
+mobile header with no menu to dismiss.
+
+## Installation
+
+The accent picker is React only, and needs Tailwind CSS v4. See
+[Installation](/docs/installation/) for the full requirements.
+
+<Tabs>
+  <TabItem label="CLI">
+    <PackageManagerTabs run="shadcn@latest add https://kstile-ui.vercel.app/r/accent-picker.json" />
+
+    The CLI also adds the 8 accents to your CSS file.
+
+    If you've set up the `@kstile` name, `shadcn add @kstile/accent-picker` does the same.
+    See [Installation](/docs/installation/#shorter-commands-with-kstile).
+
+  </TabItem>
+  <TabItem label="Manual">
+    Install the dependency:
+
+    <PackageManagerTabs install="cn" />
+
+    Add `lib/utils.ts` if you don't have it:
+
+    ```ts
+    export { cn } from "cn"
+    ```
+
+    Add the accents to your CSS file, after your theme's colours:
+
+    ```css
+    :root[data-accent="lime"], [data-accent="lime"] { --primary: #b4e600; --primary-foreground: #000; }
+    :root[data-accent="mono"], [data-accent="mono"] { --primary: #000; --primary-foreground: #fff; }
+    :root.dark[data-accent="mono"], .dark [data-accent="mono"] { --primary: #fff; --primary-foreground: #000; }
+    :root[data-accent="teal"], [data-accent="teal"] { --primary: #00b8b0; --primary-foreground: #000; }
+    :root[data-accent="blue"], [data-accent="blue"] { --primary: #2f8cff; --primary-foreground: #000; }
+    :root[data-accent="magenta"], [data-accent="magenta"] { --primary: #ee2f96; --primary-foreground: #000; }
+    :root[data-accent="red"], [data-accent="red"] { --primary: #f4473f; --primary-foreground: #000; }
+    :root[data-accent="orange"], [data-accent="orange"] { --primary: #ff7a1a; --primary-foreground: #000; }
+    :root[data-accent="yellow"], [data-accent="yellow"] { --primary: #ffd21f; --primary-foreground: #000; }
+    ```
+
+    Then copy this into `components/ui/accent-picker.tsx`:
+
+    <Code code={pickerSource} lang="tsx" />
+
+  </TabItem>
+</Tabs>
+
+### Keep the accent on reload
+
+The picker saves the choice, but React only runs after the page has drawn, so
+the old accent flashes first. Add this to your `<head>`, before any stylesheet,
+to set it before the first paint:
+
+```html
+<script>
+  try {
+    document.documentElement.dataset.accent =
+      localStorage.getItem("kstile-accent") || "lime"
+  } catch {}
+</script>
+```
+
+In Next.js, put it in `app/layout.tsx` inside `<head>` with
+`dangerouslySetInnerHTML`, and add `suppressHydrationWarning` to `<html>`.
+
+## Examples
+
+### Always visible
+
+On its own, `AccentPickerSwatches` stays open, for a settings page or a sidebar
+with room for the row.
+
+<div class="not-content py-4">
+  <AccentPickerSwatchesDemo client:load />
+</div>
+
+```tsx
+<AccentPickerSwatches className="max-w-sm" />
+```
+
+### Close after a pick
+
+Control the open state with `open` and `onOpenChange`, and close it in
+`onValueChange`. Pick an accent here and the row closes:
+
+<div class="not-content py-4">
+  <AccentPickerCloseDemo client:load />
+</div>
+
+```tsx
+const [open, setOpen] = React.useState(false)
+
+<AccentPicker open={open} onOpenChange={setOpen}>
+  <header className="flex h-14 items-center gap-2 pr-2 pl-4">
+    <span className="mr-auto text-xl font-semibold">kstile</span>
+    <AccentPickerTrigger />
+  </header>
+  <AccentPickerSwatches onValueChange={() => setOpen(false)} />
+</AccentPicker>
+```
+
+The same works for closing it when the route changes.
+
+### Show the names
+
+The names are there for screen readers. Show them with the
+`accent-picker-swatch-label` slot, and give the swatches room with the
+`accent-picker-swatch` slot:
+
+<div class="not-content py-4">
+  <AccentPickerNamesDemo client:load />
+</div>
+
+```tsx
+<AccentPickerSwatches className="grid-cols-4 [&_[data-slot=accent-picker-swatch-label]]:not-sr-only [&_[data-slot=accent-picker-swatch]]:min-h-16" />
+```
+
+### Save the choice yourself
+
+By default the choice goes to localStorage under `kstile-accent`. Pass
+`storageKey={null}` and save it in `onValueChange` instead, for example to a
+user's profile or a cookie:
+
+```tsx
+<AccentPickerSwatches
+  storageKey={null}
+  onValueChange={(accent) => saveSettings({ accent })}
+/>
+```
+
+To set the accent from your own code, such as after loading a profile, set
+`data-accent` on `<html>`. Every picker on the page follows:
+
+```ts
+document.documentElement.dataset.accent = profile.accent
+```
+
+### Your own accents
+
+Pass `accents` to show your own list, in your order. Each name needs a
+`[data-accent]` rule in your CSS that sets `--primary` and
+`--primary-foreground`:
+
+```css
+:root[data-accent="brand"], [data-accent="brand"] { --primary: #5b3cc4; --primary-foreground: #fff; }
+```
+
+```tsx
+<AccentPickerSwatches
+  accents={["brand", "lime", "mono"]}
+  className="grid-cols-3"
+/>
+```
+
+### Other languages
+
+`label` names the group for screen readers, and each accent can carry the text
+people see and hear. The trigger takes its own `aria-label`:
+
+```tsx
+<AccentPicker>
+  <AccentPickerTrigger aria-label="Akzentfarbe" />
+  <AccentPickerSwatches
+    label="Akzentfarbe"
+    accents={[
+      { value: "lime", label: "Limette" },
+      { value: "mono", label: "Schwarz-Weiß" },
+      { value: "blue", label: "Blau" },
+    ]}
+  />
+</AccentPicker>
+```
+
+### Your own trigger
+
+Give `AccentPickerTrigger` children to replace the square, for example with a
+label:
+
+```tsx
+<AccentPickerTrigger className="w-auto px-3">accent</AccentPickerTrigger>
+```
+
+## Usage
+
+```tsx
+import {
+  AccentPicker,
+  AccentPickerSwatches,
+  AccentPickerTrigger,
+} from "@/components/ui/accent-picker"
+
+export function SiteHeader() {
+  return (
+    <AccentPicker>
+      <header className="flex items-center">
+        <a href="/" className="mr-auto">Home</a>
+        <AccentPickerTrigger />
+      </header>
+      <AccentPickerSwatches />
+    </AccentPicker>
+  )
+}
+```
+
+## Props
+
+Each part also takes every prop of the element it renders.
+
+### AccentPicker
+
+Renders a `div` that holds the open state. Put the trigger and the swatches
+anywhere inside it.
+
+| Prop           | Type                      | Default | Description                                   |
+| -------------- | ------------------------- | ------- | --------------------------------------------- |
+| `open`         | `boolean`                 |         | Whether the swatches show. Leave it out to let the trigger decide. |
+| `defaultOpen`  | `boolean`                 | `false` | Whether the swatches show at first, when `open` is left out. |
+| `onOpenChange` | `(open: boolean) => void` |         | Called when the trigger opens or closes the swatches. |
+
+### AccentPickerTrigger
+
+Renders a `button`: the square in the current accent. It opens and closes the
+swatches, and needs an `AccentPicker` around it. Children replace the square.
+Its `aria-label` is `Accent` unless you pass your own.
+
+### AccentPickerSwatches
+
+Renders a `fieldset` with one radio per accent. Inside `AccentPicker` it shows
+only while open. On its own it's always visible.
+
+| Prop            | Type                         | Default         | Description                                      |
+| --------------- | ---------------------------- | --------------- | ------------------------------------------------ |
+| `accents`       | `(string \| { value, label })[]` | the 8 accents | The accents to show, in order. Each needs a `[data-accent]` rule. |
+| `storageKey`    | `string \| null`             | `kstile-accent` | The localStorage key for the choice. `null` saves nothing. |
+| `onValueChange` | `(accent: string) => void`   |                 | Called with the accent's name after each pick.   |
+| `label`         | `string`                     | `Accent`        | The group's name for screen readers.             |
+
+| Slot                          | Element  | Use                                     |
+| ----------------------------- | -------- | --------------------------------------- |
+| `accent-picker-swatch`        | `label`  | One swatch. Size or restyle it.         |
+| `accent-picker-swatch-label`  | `span`   | The accent's name. Hidden unless you show it. |
+
+The default list is exported as `accents`, and the type of one item as `Accent`.
+
+## Troubleshooting
+
+**Picking an accent changes nothing.** The accent CSS is missing, or it comes
+before your theme's colours. Put it after them.
+
+**Mono stays black in dark mode.** Your dark mode isn't a `dark` class on
+`<html>`. Change `.dark` in the mono rule to match yours, such as
+`[data-theme="dark"]`.
+
+**No swatch is selected on first load.** No accent is set yet. Add the
+[head script](#keep-the-accent-on-reload), which starts on lime.

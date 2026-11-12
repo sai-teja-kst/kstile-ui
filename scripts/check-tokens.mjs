@@ -74,4 +74,33 @@ for (const mode of ["light", "dark"]) {
 assert.equal(theme.cssVars.light.radius, "0rem")
 assert.match(theme.cssVars.theme["font-sans"], /Open Sans/)
 
-console.log("tokens ok: 7 colour accents and mono, registry theme in step")
+// The accent picker ships its own copy of the accents, in shadcn's .dark form.
+const picker = items.find((item) => item.name === "accent-picker")
+assert.ok(picker, "the registry must hold the accent picker")
+const shipped = (selector) => picker.css[selector] ?? {}
+for (const [name, value] of Object.entries(ACCENTS)) {
+  assert.deepEqual(
+    shipped(`:root[data-accent="${name}"], [data-accent="${name}"]`),
+    { "--primary": value, "--primary-foreground": "#000" },
+    `accent-picker: ${name}`,
+  )
+}
+assert.deepEqual(
+  shipped(':root[data-accent="mono"], [data-accent="mono"]'),
+  { "--primary": "#000", "--primary-foreground": "#fff" },
+  "accent-picker: mono on light",
+)
+assert.deepEqual(
+  shipped(':root.dark[data-accent="mono"], .dark [data-accent="mono"]'),
+  { "--primary": "#fff", "--primary-foreground": "#000" },
+  "accent-picker: mono on dark",
+)
+assert.equal(Object.keys(picker.css).length, 9, "accent-picker: 9 accent rules")
+const source = readFileSync("packages/registry/react/accent-picker.tsx", "utf8")
+for (const name of ["mono", ...Object.keys(ACCENTS)]) {
+  assert.match(source, new RegExp(`"${name}",`), `accent-picker.tsx: ${name}`)
+}
+
+console.log(
+  "tokens ok: 7 colour accents and mono, registry theme and accent picker in step",
+)

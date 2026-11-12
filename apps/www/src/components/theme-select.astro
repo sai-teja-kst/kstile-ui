@@ -29,19 +29,19 @@ const name = `kstile-accent-${Math.random().toString(36).slice(2, 8)}`
     connectedCallback() {
       const root = document.documentElement
       const radios = this.querySelectorAll("input")
+      const sync = () => {
+        for (const radio of radios) radio.checked = radio.value === root.dataset.accent
+      }
+      sync()
+      // Follows every change, so the header, the mobile menu and any React
+      // AccentPicker on the page stay on the same accent.
+      new MutationObserver(sync).observe(root, { attributeFilter: ["data-accent"] })
       for (const radio of radios) {
-        radio.checked = radio.value === root.dataset.accent
         radio.addEventListener("change", () => {
           root.dataset.accent = radio.value
           try {
             localStorage.setItem("kstile-accent", radio.value)
           } catch {}
-          // Keep the other picker (header or mobile menu) on the same accent.
-          for (const other of document.querySelectorAll<HTMLInputElement>(
-            "kstile-accent-picker input",
-          )) {
-            other.checked = other.value === radio.value
-          }
         })
       }
     }

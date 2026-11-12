@@ -92,6 +92,7 @@ export default defineConfig({
           label: "Components",
           items: [
             { label: "Overview", slug: "docs/components" },
+            { label: "Accent picker", slug: "docs/components/accent-picker" },
             { label: "Button", slug: "docs/components/button" },
             { label: "Tile", slug: "docs/components/tile" },
           ],
