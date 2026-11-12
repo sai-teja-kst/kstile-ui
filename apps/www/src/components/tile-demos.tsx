@@ -32,8 +32,8 @@ export function TileGridDemo() {
   return (
     <TileGrid className="auto-rows-[8.5rem]">
       <Tile variant="fill" size="medium">
-        <TileDescription>Button and Tile, so far.</TileDescription>
-        <TileTitle className="text-5xl">2 components</TileTitle>
+        <TileDescription>Square, flat tiles.</TileDescription>
+        <TileTitle className="text-5xl">kstile</TileTitle>
       </Tile>
       <Tile asChild>
         <a href="/docs/components/button/">
