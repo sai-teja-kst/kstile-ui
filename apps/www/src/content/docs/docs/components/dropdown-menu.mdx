@@ -1,0 +1,259 @@
+---
+title: Dropdown menu
+description: A square, flat menu of actions or options, opened from a button or a tile.
+---
+
+import { Code, TabItem, Tabs } from "@astrojs/starlight/components"
+import {
+  DropdownMenuCheckboxDemo,
+  DropdownMenuDemo,
+  DropdownMenuDestructiveDemo,
+  DropdownMenuNoChevronDemo,
+  DropdownMenuRadioDemo,
+  DropdownMenuTileDemo,
+} from "@/components/dropdown-menu-demos"
+import PackageManagerTabs from "@/components/package-manager-tabs.astro"
+import menuSource from "@kstile/registry/react/dropdown-menu.tsx?raw"
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="not-content py-4">
+      <DropdownMenuDemo client:load />
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```tsx
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline">Open</Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuLabel>My account</DropdownMenuLabel>
+        <DropdownMenuGroup>
+          <DropdownMenuItem>
+            Profile
+            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            Settings
+            <DropdownMenuShortcut>⌘,</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>Invite</DropdownMenuSubTrigger>
+            <DropdownMenuSubContent>
+              <DropdownMenuItem>Email</DropdownMenuItem>
+              <DropdownMenuItem>Message</DropdownMenuItem>
+            </DropdownMenuSubContent>
+          </DropdownMenuSub>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem disabled>API keys</DropdownMenuItem>
+        <DropdownMenuItem variant="destructive">Delete account</DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+    ```
+  </TabItem>
+</Tabs>
+
+The menu has square corners, a thick border in your text colour and no shadow,
+and groups are split by a bar in the same colour. It opens with a short fade
+from the trigger. The highlighted row fills with your accent. Rows are 40px tall, so they're easy
+to tap. The trigger ends with a chevron that points down, and up while the menu
+is open. It's built on Radix, so the arrow keys, typing to jump to a row,
+<kbd>Esc</kbd> and focus all work as in shadcn's dropdown menu.
+
+## Installation
+
+The dropdown menu is React only, and needs Tailwind CSS v4. See
+[Installation](/docs/installation/) for the full requirements.
+
+<Tabs>
+  <TabItem label="CLI">
+    <PackageManagerTabs run="shadcn@latest add https://kstile-ui.vercel.app/r/dropdown-menu.json" />
+
+    If you've set up the `@kstile` name, `shadcn add @kstile/dropdown-menu` does the same.
+    See [Installation](/docs/installation/#shorter-commands-with-kstile).
+
+  </TabItem>
+  <TabItem label="Manual">
+    Install the dependencies:
+
+    <PackageManagerTabs install="@radix-ui/react-dropdown-menu cn" />
+
+    Add `lib/utils.ts` if you don't have it:
+
+    ```ts
+    export { cn } from "cn"
+    ```
+
+    Then copy this into `components/ui/dropdown-menu.tsx`:
+
+    <Code code={menuSource} lang="tsx" />
+
+  </TabItem>
+</Tabs>
+
+## Examples
+
+### From a tile
+
+Any element can open the menu. Pass `asChild` to both the trigger and the tile,
+and make the tile a `button`. This tile has its own icon, so it turns the
+chevron off:
+
+<div class="not-content py-4">
+  <DropdownMenuTileDemo client:load />
+</div>
+
+```tsx
+<DropdownMenu>
+  <DropdownMenuTrigger asChild chevron={false}>
+    <Tile asChild variant="fill">
+      <button type="button" className="text-left">
+        <TileIcon>
+          <MoreHorizontal />
+        </TileIcon>
+        <TileDescription>Tap for actions</TileDescription>
+        <TileTitle>project</TileTitle>
+      </button>
+    </Tile>
+  </DropdownMenuTrigger>
+  <DropdownMenuContent align="end">
+    <DropdownMenuItem>Open</DropdownMenuItem>
+    <DropdownMenuItem>Rename</DropdownMenuItem>
+    <DropdownMenuItem>Duplicate</DropdownMenuItem>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem variant="destructive">Delete</DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
+```
+
+### Without the chevron
+
+The chevron is on by default, whatever the trigger is. Pass `chevron={false}`
+to leave it out, for example on an icon button:
+
+<div class="not-content py-4">
+  <DropdownMenuNoChevronDemo client:load />
+</div>
+
+```tsx
+<DropdownMenuTrigger asChild chevron={false}>
+  <Button variant="ghost" size="icon" aria-label="More">
+    <MoreHorizontal />
+  </Button>
+</DropdownMenuTrigger>
+```
+
+### Checkboxes
+
+<div class="not-content py-4">
+  <DropdownMenuCheckboxDemo client:load />
+</div>
+
+```tsx
+const [grid, setGrid] = React.useState(true)
+
+<DropdownMenuCheckboxItem checked={grid} onCheckedChange={setGrid}>
+  Show grid
+</DropdownMenuCheckboxItem>
+```
+
+### Radio group
+
+The chosen row shows a square dot, to match the square corners.
+
+<div class="not-content py-4">
+  <DropdownMenuRadioDemo client:load />
+</div>
+
+```tsx
+const [size, setSize] = React.useState("medium")
+
+<DropdownMenuRadioGroup value={size} onValueChange={setSize}>
+  <DropdownMenuRadioItem value="small">small</DropdownMenuRadioItem>
+  <DropdownMenuRadioItem value="wide">wide</DropdownMenuRadioItem>
+  <DropdownMenuRadioItem value="medium">medium</DropdownMenuRadioItem>
+  <DropdownMenuRadioItem value="large">large</DropdownMenuRadioItem>
+</DropdownMenuRadioGroup>
+```
+
+### Destructive
+
+`variant="destructive"` marks the row with a red square at its end, and fills
+the row red while it's highlighted. The square shows before anyone taps, which
+matters on touch screens, where there's no hover. The text stays in your text
+colour, because red text on a light background is too faint to read. Name the
+action clearly, such as "Delete account".
+
+<div class="not-content py-4">
+  <DropdownMenuDestructiveDemo client:load />
+</div>
+
+```tsx
+<DropdownMenuContent>
+  <DropdownMenuItem>Rename</DropdownMenuItem>
+  <DropdownMenuItem>Duplicate</DropdownMenuItem>
+  <DropdownMenuSeparator />
+  <DropdownMenuItem variant="destructive">
+    Delete project
+    <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
+  </DropdownMenuItem>
+</DropdownMenuContent>
+```
+
+## Usage
+
+```tsx
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
+export function Example() {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline">Open</Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuItem>Profile</DropdownMenuItem>
+        <DropdownMenuItem>Settings</DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+```
+
+## Props
+
+The parts and their props are Radix's. See the
+[Radix dropdown menu](https://www.radix-ui.com/primitives/docs/components/dropdown-menu)
+for the full list. kstile adds these:
+
+| Part                      | Prop      | Type                         | Default   | Description                                  |
+| ------------------------- | --------- | ---------------------------- | --------- | -------------------------------------------- |
+| `DropdownMenuTrigger`     | `chevron` | `boolean`                    | `true`    | Shows a chevron at the end, pointing up while open. |
+| `DropdownMenuItem`        | `variant` | `default`, `destructive`     | `default` | `destructive` adds a red square, and fills the row red when highlighted. |
+| `DropdownMenuItem`, `DropdownMenuCheckboxItem`, `DropdownMenuRadioItem`, `DropdownMenuLabel`, `DropdownMenuSubTrigger` | `inset` | `boolean` | | Indents the text to line up with rows that have an icon. |
+| `DropdownMenuContent`     | `align`   | `start`, `center`, `end`     | `start`   | Where the menu lines up with its trigger.    |
+| `DropdownMenuContent`     | `sideOffset` | `number`                  | `4`       | The gap between the trigger and the menu, in pixels. |
+
+| Part                     | Use                                                  |
+| ------------------------ | ---------------------------------------------------- |
+| `DropdownMenuShortcut`   | A keyboard shortcut, shown at the end of a row.      |
+| `DropdownMenuLabel`      | A small heading for a group of rows.                 |
+| `DropdownMenuSeparator`  | A bar between groups, as thick as the border.        |
+| `DropdownMenuSub`, `DropdownMenuSubTrigger`, `DropdownMenuSubContent` | A row that opens a second menu. |
+
+## Troubleshooting
+
+**The highlighted row is hard to read.** Your theme's `--primary-foreground`
+doesn't contrast with `--primary`. kstile's accents all use black text, except
+mono.
+
+**The menu has rounded corners or a shadow.** Another stylesheet styles
+`[role=menu]`. kstile sets `rounded-none` and `shadow-none`, so check for
+`!important` rules.

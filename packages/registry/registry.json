@@ -102,6 +102,20 @@
           "--primary-foreground": "#000"
         }
       }
+    },
+    {
+      "name": "dropdown-menu",
+      "type": "registry:ui",
+      "title": "Dropdown menu",
+      "description": "A square, flat menu of actions or options, opened from a button or a tile.",
+      "dependencies": ["@radix-ui/react-dropdown-menu", "@radix-ui/react-slot"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "react/dropdown-menu.tsx",
+          "type": "registry:ui"
+        }
+      ]
     }
   ]
 }

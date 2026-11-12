@@ -94,6 +94,7 @@ export default defineConfig({
             { label: "Overview", slug: "docs/components" },
             { label: "Accent picker", slug: "docs/components/accent-picker" },
             { label: "Button", slug: "docs/components/button" },
+            { label: "Dropdown menu", slug: "docs/components/dropdown-menu" },
             { label: "Tile", slug: "docs/components/tile" },
           ],
         },
