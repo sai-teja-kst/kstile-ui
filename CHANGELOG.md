@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.1](https://github.com/sai-teja-kst/kstile-ui/compare/v0.6.0...v0.6.1) (2026-11-12)
+
+
+### Documentation
+
+* point the readme at the components page and drop the tile count ([#26](https://github.com/sai-teja-kst/kstile-ui/issues/26)) ([0734f20](https://github.com/sai-teja-kst/kstile-ui/commit/0734f202760be444d72d10837c586d625516e797))
+
 ## [0.6.0](https://github.com/sai-teja-kst/kstile-ui/compare/v0.5.0...v0.6.0) (2026-11-12)
 
 
