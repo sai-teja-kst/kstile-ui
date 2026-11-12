@@ -20,11 +20,8 @@ lime look.
 
 ## Components
 
-| Component | Docs                                                                                           |
-| --------- | ---------------------------------------------------------------------------------------------- |
-| Button    | [kstile-ui.vercel.app/docs/components/button](https://kstile-ui.vercel.app/docs/components/button/) |
-
-More are on the way.
+See every component at
+[kstile-ui.vercel.app/docs/components](https://kstile-ui.vercel.app/docs/components/).
 
 ## Develop
 
