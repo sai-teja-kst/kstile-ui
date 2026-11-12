@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.0](https://github.com/sai-teja-kst/kstile-ui/compare/v0.6.1...v0.7.0) (2026-11-12)
+
+
+### Features
+
+* add the dropdown menu component ([#28](https://github.com/sai-teja-kst/kstile-ui/issues/28)) ([dfdf21b](https://github.com/sai-teja-kst/kstile-ui/commit/dfdf21b649819138cd6b49ce63e89e99b68c0ecb))
+
 ## [0.6.1](https://github.com/sai-teja-kst/kstile-ui/compare/v0.6.0...v0.6.1) (2026-11-12)
 
 
