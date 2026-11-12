@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.0](https://github.com/sai-teja-kst/kstile-ui/compare/v0.5.0...v0.6.0) (2026-11-12)
+
+
+### Features
+
+* add the accent picker component ([#24](https://github.com/sai-teja-kst/kstile-ui/issues/24)) ([95b24d9](https://github.com/sai-teja-kst/kstile-ui/commit/95b24d9c77204cfaf8b7e8d6a45b8526ab5b0108))
+
 ## [0.5.0](https://github.com/sai-teja-kst/kstile-ui/compare/v0.4.0...v0.5.0) (2026-11-11)
 
 
