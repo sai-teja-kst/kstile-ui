@@ -141,3 +141,38 @@ export function DropdownMenuTileDemo() {
     </div>
   )
 }
+
+export function DropdownMenuDestructiveDemo() {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline">Project</Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuItem>Rename</DropdownMenuItem>
+        <DropdownMenuItem>Duplicate</DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem variant="destructive">
+          Delete project
+          <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+
+export function DropdownMenuNoChevronDemo() {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild chevron={false}>
+        <Button variant="ghost" size="icon" aria-label="More">
+          <MoreIcon />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuItem>Rename</DropdownMenuItem>
+        <DropdownMenuItem>Duplicate</DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}

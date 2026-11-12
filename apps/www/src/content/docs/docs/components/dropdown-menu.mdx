@@ -7,6 +7,8 @@ import { Code, TabItem, Tabs } from "@astrojs/starlight/components"
 import {
   DropdownMenuCheckboxDemo,
   DropdownMenuDemo,
+  DropdownMenuDestructiveDemo,
+  DropdownMenuNoChevronDemo,
   DropdownMenuRadioDemo,
   DropdownMenuTileDemo,
 } from "@/components/dropdown-menu-demos"
@@ -131,6 +133,10 @@ chevron off:
 The chevron is on by default, whatever the trigger is. Pass `chevron={false}`
 to leave it out, for example on an icon button:
 
+<div class="not-content py-4">
+  <DropdownMenuNoChevronDemo client:load />
+</div>
+
 ```tsx
 <DropdownMenuTrigger asChild chevron={false}>
   <Button variant="ghost" size="icon" aria-label="More">
@@ -179,6 +185,22 @@ the row red while it's highlighted. The square shows before anyone taps, which
 matters on touch screens, where there's no hover. The text stays in your text
 colour, because red text on a light background is too faint to read. Name the
 action clearly, such as "Delete account".
+
+<div class="not-content py-4">
+  <DropdownMenuDestructiveDemo client:load />
+</div>
+
+```tsx
+<DropdownMenuContent>
+  <DropdownMenuItem>Rename</DropdownMenuItem>
+  <DropdownMenuItem>Duplicate</DropdownMenuItem>
+  <DropdownMenuSeparator />
+  <DropdownMenuItem variant="destructive">
+    Delete project
+    <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
+  </DropdownMenuItem>
+</DropdownMenuContent>
+```
 
 ## Usage
 
