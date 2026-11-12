@@ -51,6 +51,57 @@
           "type": "registry:ui"
         }
       ]
+    },
+    {
+      "name": "accent-picker",
+      "type": "registry:ui",
+      "title": "Accent picker",
+      "description": "A square in the current accent that opens a row of 8 accent swatches.",
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "react/accent-picker.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "css": {
+        ":root[data-accent=\"lime\"], [data-accent=\"lime\"]": {
+          "--primary": "#b4e600",
+          "--primary-foreground": "#000"
+        },
+        ":root[data-accent=\"mono\"], [data-accent=\"mono\"]": {
+          "--primary": "#000",
+          "--primary-foreground": "#fff"
+        },
+        ":root.dark[data-accent=\"mono\"], .dark [data-accent=\"mono\"]": {
+          "--primary": "#fff",
+          "--primary-foreground": "#000"
+        },
+        ":root[data-accent=\"teal\"], [data-accent=\"teal\"]": {
+          "--primary": "#00b8b0",
+          "--primary-foreground": "#000"
+        },
+        ":root[data-accent=\"blue\"], [data-accent=\"blue\"]": {
+          "--primary": "#2f8cff",
+          "--primary-foreground": "#000"
+        },
+        ":root[data-accent=\"magenta\"], [data-accent=\"magenta\"]": {
+          "--primary": "#ee2f96",
+          "--primary-foreground": "#000"
+        },
+        ":root[data-accent=\"red\"], [data-accent=\"red\"]": {
+          "--primary": "#f4473f",
+          "--primary-foreground": "#000"
+        },
+        ":root[data-accent=\"orange\"], [data-accent=\"orange\"]": {
+          "--primary": "#ff7a1a",
+          "--primary-foreground": "#000"
+        },
+        ":root[data-accent=\"yellow\"], [data-accent=\"yellow\"]": {
+          "--primary": "#ffd21f",
+          "--primary-foreground": "#000"
+        }
+      }
     }
   ]
 }
