@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0](https://github.com/sai-teja-kst/kstile-ui/compare/v0.4.0...v0.5.0) (2026-11-11)
+
+
+### Features
+
+* add a tile grid with four tile sizes ([#22](https://github.com/sai-teja-kst/kstile-ui/issues/22)) ([ce7f4d8](https://github.com/sai-teja-kst/kstile-ui/commit/ce7f4d85d98ca1da62b6c789ecd5278a54815f9e))
+
 ## [0.4.0](https://github.com/sai-teja-kst/kstile-ui/compare/v0.3.0...v0.4.0) (2026-11-08)
 
 
