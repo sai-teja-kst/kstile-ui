@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.0](https://github.com/sai-teja-kst/kstile-ui/compare/v0.7.0...v0.8.0) (2026-11-14)
+
+
+### Features
+
+* add the input component and field and tile dropdown triggers ([#32](https://github.com/sai-teja-kst/kstile-ui/issues/32)) ([a4d2619](https://github.com/sai-teja-kst/kstile-ui/commit/a4d26190eabe9d106632576ba7f0db757c5df989))
+
 ## [0.7.0](https://github.com/sai-teja-kst/kstile-ui/compare/v0.6.1...v0.7.0) (2026-11-12)
 
 
