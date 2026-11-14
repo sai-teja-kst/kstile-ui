@@ -95,6 +95,7 @@ export default defineConfig({
             { label: "Accent picker", slug: "docs/components/accent-picker" },
             { label: "Button", slug: "docs/components/button" },
             { label: "Dropdown menu", slug: "docs/components/dropdown-menu" },
+            { label: "Input", slug: "docs/components/input" },
             { label: "Tile", slug: "docs/components/tile" },
           ],
         },

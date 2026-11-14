@@ -176,3 +176,50 @@ export function DropdownMenuNoChevronDemo() {
     </DropdownMenu>
   )
 }
+
+const regions = ["eu-west", "us-east", "ap-south"]
+
+export function DropdownMenuVariantsDemo() {
+  const [region, setRegion] = React.useState("")
+  const [plan, setPlan] = React.useState("Free")
+
+  return (
+    <div className="grid w-full max-w-sm gap-4">
+      <div className="grid gap-1.5">
+        <label className="text-sm font-semibold" htmlFor="demo-region">
+          Region
+        </label>
+        <DropdownMenu>
+          <DropdownMenuTrigger id="demo-region" variant="field">
+            {region || (
+              <span className="text-foreground/60">Pick a region</span>
+            )}
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-(--radix-dropdown-menu-trigger-width)">
+            <DropdownMenuRadioGroup value={region} onValueChange={setRegion}>
+              {regions.map((r) => (
+                <DropdownMenuRadioItem key={r} value={r}>
+                  {r}
+                </DropdownMenuRadioItem>
+              ))}
+            </DropdownMenuRadioGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+      <DropdownMenu>
+        <DropdownMenuTrigger variant="tile" label="Plan">
+          {plan}
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-(--radix-dropdown-menu-trigger-width)">
+          <DropdownMenuRadioGroup value={plan} onValueChange={setPlan}>
+            <DropdownMenuRadioItem value="Free">Free</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="Team">Team</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="Business">
+              Business
+            </DropdownMenuRadioItem>
+          </DropdownMenuRadioGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
+  )
+}

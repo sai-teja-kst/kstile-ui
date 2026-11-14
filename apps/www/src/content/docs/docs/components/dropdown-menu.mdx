@@ -11,6 +11,7 @@ import {
   DropdownMenuNoChevronDemo,
   DropdownMenuRadioDemo,
   DropdownMenuTileDemo,
+  DropdownMenuVariantsDemo,
 } from "@/components/dropdown-menu-demos"
 import PackageManagerTabs from "@/components/package-manager-tabs.astro"
 import menuSource from "@kstile/registry/react/dropdown-menu.tsx?raw"
@@ -94,6 +95,44 @@ The dropdown menu is React only, and needs Tailwind CSS v4. See
 </Tabs>
 
 ## Examples
+
+### Field and tile
+
+For a menu that picks a value, like a select, give the trigger a `variant`.
+They match the input's two looks. `field` is a 40px box with a 3px border, and
+`tile` is a 64px tile with its `label` inside at the top and the value set large
+and light. The trigger's children are the value. Give the field a `label`
+element of its own, linked with `id`. Set the menu's width to the trigger's
+with `w-(--radix-dropdown-menu-trigger-width)`.
+
+<div class="not-content py-4">
+  <DropdownMenuVariantsDemo client:load />
+</div>
+
+```tsx
+<label htmlFor="region" className="text-sm font-semibold">Region</label>
+<DropdownMenu>
+  <DropdownMenuTrigger id="region" variant="field">
+    {region || <span className="text-foreground/60">Pick a region</span>}
+  </DropdownMenuTrigger>
+  <DropdownMenuContent className="w-(--radix-dropdown-menu-trigger-width)">
+    <DropdownMenuRadioGroup value={region} onValueChange={setRegion}>
+      <DropdownMenuRadioItem value="eu-west">eu-west</DropdownMenuRadioItem>
+      <DropdownMenuRadioItem value="us-east">us-east</DropdownMenuRadioItem>
+    </DropdownMenuRadioGroup>
+  </DropdownMenuContent>
+</DropdownMenu>
+
+<DropdownMenu>
+  <DropdownMenuTrigger variant="tile" label="Plan">
+    {plan}
+  </DropdownMenuTrigger>
+  ...
+</DropdownMenu>
+```
+
+`aria-invalid` and `disabled` work as on the input: the field's border turns
+red, and the tile gets a red square in its top right corner.
 
 ### From a tile
 
@@ -236,6 +275,8 @@ for the full list. kstile adds these:
 | Part                      | Prop      | Type                         | Default   | Description                                  |
 | ------------------------- | --------- | ---------------------------- | --------- | -------------------------------------------- |
 | `DropdownMenuTrigger`     | `chevron` | `boolean`                    | `true`    | Shows a chevron at the end, pointing up while open. |
+| `DropdownMenuTrigger`     | `variant` | `field`, `tile`              |           | Styles the trigger like the input. Without it the trigger is unstyled, for `asChild`. |
+| `DropdownMenuTrigger`     | `label`   | `ReactNode`                  |           | The tile's label, set inside it at the top. Only the tile uses it. |
 | `DropdownMenuItem`        | `variant` | `default`, `destructive`     | `default` | `destructive` adds a red square, and fills the row red when highlighted. |
 | `DropdownMenuItem`, `DropdownMenuCheckboxItem`, `DropdownMenuRadioItem`, `DropdownMenuLabel`, `DropdownMenuSubTrigger` | `inset` | `boolean` | | Indents the text to line up with rows that have an icon. |
 | `DropdownMenuContent`     | `align`   | `start`, `center`, `end`     | `start`   | Where the menu lines up with its trigger.    |
