@@ -116,6 +116,19 @@
           "type": "registry:ui"
         }
       ]
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
+      "description": "A square text field with a thick border, or a tile with its label inside.",
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "react/input.tsx",
+          "type": "registry:ui"
+        }
+      ]
     }
   ]
 }

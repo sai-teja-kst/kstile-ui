@@ -63,16 +63,68 @@ function withChevron(node: React.ReactNode): React.ReactNode {
   return [<Slottable key="content">{node}</Slottable>, chevronIcon]
 }
 
+// The trigger's own looks, matching the input's two variants: the framed field
+// and the tile with its label inside. Errors are a red shape, never red text.
+const triggerVariants = {
+  field:
+    "flex h-10 w-full min-w-0 items-center gap-2 rounded-none border-3 border-foreground bg-transparent px-3 text-left text-base text-foreground focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-foreground disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive md:text-sm",
+  tile: "relative flex h-16 w-full min-w-0 items-end gap-2 rounded-none bg-muted px-3 pb-2 text-left text-foreground focus-visible:outline-3 focus-visible:-outline-offset-3 focus-visible:outline-foreground disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:after:absolute aria-invalid:after:top-2.5 aria-invalid:after:right-2.5 aria-invalid:after:size-2.5 aria-invalid:after:bg-destructive [&>[data-slot=dropdown-menu-chevron]]:mb-2",
+}
+
 // Ends with a chevron that points down, and up while the menu is open.
 function DropdownMenuTrigger({
   children,
+  className,
   chevron = true,
+  variant,
+  label,
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.Trigger> & {
   chevron?: boolean
+  // Without a variant the trigger is unstyled, for asChild on a button or tile.
+  variant?: "field" | "tile"
+  // The tile's own label, set inside it at the top. Only the tile uses it.
+  label?: React.ReactNode
 }) {
+  if (variant) {
+    // Renders its own button, so asChild doesn't apply. children is the value.
+    return (
+      <DropdownMenuPrimitive.Trigger
+        data-slot="dropdown-menu-trigger"
+        data-variant={variant}
+        className={cn(triggerVariants[variant], className)}
+        {...props}
+        asChild={false}
+      >
+        {variant === "tile" && label != null && (
+          <span
+            data-slot="dropdown-menu-trigger-label"
+            className="absolute top-2 left-3 text-xs font-semibold"
+          >
+            {label}
+          </span>
+        )}
+        <span
+          data-slot="dropdown-menu-trigger-value"
+          className={cn(
+            "min-w-0 flex-1 truncate",
+            variant === "tile" &&
+              "h-8 text-xl leading-8 font-light tracking-tight",
+          )}
+        >
+          {children}
+        </span>
+        {chevron && chevronIcon}
+      </DropdownMenuPrimitive.Trigger>
+    )
+  }
+
   return (
-    <DropdownMenuPrimitive.Trigger data-slot="dropdown-menu-trigger" {...props}>
+    <DropdownMenuPrimitive.Trigger
+      data-slot="dropdown-menu-trigger"
+      className={className}
+      {...props}
+    >
       {/* One expression: even a false would count as a second child for asChild. */}
       {!chevron ? (
         children

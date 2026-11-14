@@ -1,0 +1,292 @@
+---
+title: Input
+description: A square text field with a thick border, or a tile with its label inside.
+---
+
+import { Code, TabItem, Tabs } from "@astrojs/starlight/components"
+import { InputBadgeTileDemo } from "@/components/input-demos"
+import PackageManagerTabs from "@/components/package-manager-tabs.astro"
+import { Button } from "@kstile/registry/react/button"
+import { Input } from "@kstile/registry/react/input"
+import inputSource from "@kstile/registry/react/input.tsx?raw"
+
+export const stack = "not-content grid w-full max-w-sm gap-4 py-4"
+export const field = "grid gap-1.5"
+export const labelClass = "text-sm font-semibold"
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class={stack}>
+      <Input placeholder="maya@fernhill.studio" aria-label="Email" />
+      <Input variant="tile" label="Project name" placeholder="kstile-site" />
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```tsx
+    <Input placeholder="maya@fernhill.studio" aria-label="Email" />
+    <Input variant="tile" label="Project name" placeholder="kstile-site" />
+    ```
+  </TabItem>
+</Tabs>
+
+The input has square corners and a 3px border in your text colour, like the
+outline button. Focus adds a ring in the same colour, because a ring in your
+accent is too faint on a light background. It's 40px tall, so it lines up with
+a default button.
+
+The tile variant is a 64px tile with its label inside at the top, and what you
+type is set large and light. Use it for short forms, such as signing in or
+naming something.
+
+## Installation
+
+The input is React only, and needs Tailwind CSS v4. See
+[Installation](/docs/installation/) for the full requirements.
+
+<Tabs>
+  <TabItem label="CLI">
+    <PackageManagerTabs run="shadcn@latest add https://kstile-ui.vercel.app/r/input.json" />
+
+    If you've set up the `@kstile` name, `shadcn add @kstile/input` does the same.
+    See [Installation](/docs/installation/#shorter-commands-with-kstile).
+
+    If you already have shadcn's input, the CLI asks before replacing
+    `components/ui/input.tsx`. Your code keeps working, because the props are the
+    same. Any changes you made to that file are lost, so commit first.
+
+  </TabItem>
+  <TabItem label="Manual">
+    Install the dependency:
+
+    <PackageManagerTabs install="cn" />
+
+    Add `lib/utils.ts` if you don't have it:
+
+    ```ts
+    export { cn } from "cn"
+    ```
+
+    Then copy this into `components/ui/input.tsx`:
+
+    <Code code={inputSource} lang="tsx" />
+
+  </TabItem>
+</Tabs>
+
+## Examples
+
+### Tile
+
+Pass `variant="tile"` and a `label`. The label wraps the input, so it needs no
+`id`, and a tap anywhere on the tile puts the cursor in the field. `className`
+styles the tile; every other prop goes to the input.
+
+<div class={stack}>
+  <div class="grid grid-cols-2 gap-2">
+    <Input variant="tile" label="Email" type="email" placeholder="maya@fernhill.studio" className="col-span-2" />
+    <Input variant="tile" label="Seats" type="number" defaultValue="4" />
+    <Input variant="tile" label="Region" defaultValue="eu-west" />
+  </div>
+</div>
+
+```tsx
+<Input variant="tile" label="Email" type="email" placeholder="maya@fernhill.studio" />
+<Input variant="tile" label="Seats" type="number" defaultValue="4" />
+```
+
+### Label and help text
+
+Give the default input a `label` element of its own, and link any help text with
+`aria-describedby`, so screen readers read it too.
+
+<div class={stack}>
+  <div class={field}>
+    <label class={labelClass} for="demo-email">Email</label>
+    <Input id="demo-email" type="email" placeholder="maya@fernhill.studio" aria-describedby="demo-email-help" />
+    <p id="demo-email-help" class="text-sm">We only use it for sign-in links.</p>
+  </div>
+</div>
+
+```tsx
+<div className="grid gap-1.5">
+  <label htmlFor="email" className="text-sm font-semibold">Email</label>
+  <Input id="email" type="email" aria-describedby="email-help" />
+  <p id="email-help" className="text-sm">We only use it for sign-in links.</p>
+</div>
+```
+
+### Invalid
+
+Set `aria-invalid`. The default input's border turns red, and the tile gets a
+red square in its top right corner. Write the message in your text colour with a
+red square in front, because red text on a light background is too faint to
+read. This matches the destructive rows of the dropdown menu.
+
+<div class={stack}>
+  <div class={field}>
+    <label class={labelClass} for="demo-slug">Project URL</label>
+    <Input id="demo-slug" defaultValue="my project" aria-invalid aria-describedby="demo-slug-error" />
+    <p id="demo-slug-error" class="flex items-center gap-2 text-sm"><span aria-hidden="true" class="size-2 shrink-0 bg-destructive"></span>Use letters, numbers and dashes only.</p>
+  </div>
+  <div class={field}>
+    <Input variant="tile" label="Project URL" defaultValue="my project" aria-invalid aria-describedby="demo-slug-error-2" />
+    <p id="demo-slug-error-2" class="flex items-center gap-2 text-sm"><span aria-hidden="true" class="size-2 shrink-0 bg-destructive"></span>Use letters, numbers and dashes only.</p>
+  </div>
+</div>
+
+```tsx
+<Input id="url" aria-invalid aria-describedby="url-error" />
+<p id="url-error" className="flex items-center gap-2 text-sm">
+  <span aria-hidden="true" className="size-2 shrink-0 bg-destructive" />
+  Use letters, numbers and dashes only.
+</p>
+```
+
+### Disabled
+
+<div class={stack}>
+  <Input disabled placeholder="Disabled" aria-label="Disabled" />
+  <Input variant="tile" label="Plan" defaultValue="Free" disabled />
+</div>
+
+```tsx
+<Input disabled placeholder="Disabled" />
+<Input variant="tile" label="Plan" defaultValue="Free" disabled />
+```
+
+### File
+
+`type="file"` keeps the browser's own picker. Its button is set in bold, in your
+text colour.
+
+<div class={stack}>
+  <div class={field}>
+    <label class={labelClass} for="demo-file">Picture</label>
+    <Input id="demo-file" type="file" aria-describedby="demo-file-help" />
+    <p id="demo-file-help" class="text-sm">A square image works best.</p>
+  </div>
+</div>
+
+```tsx
+<div className="grid gap-1.5">
+  <label htmlFor="picture" className="text-sm font-semibold">Picture</label>
+  <Input id="picture" type="file" aria-describedby="picture-help" />
+  <p id="picture-help" className="text-sm">A square image works best.</p>
+</div>
+```
+
+### Inline
+
+Put the input and a button in a row. Both are 40px tall, so they line up.
+
+<div class={stack}>
+  <div class="flex gap-2">
+    <Input type="search" placeholder="Search components" aria-label="Search components" />
+    <Button>Search</Button>
+  </div>
+</div>
+
+```tsx
+<div className="flex gap-2">
+  <Input type="search" placeholder="Search components" />
+  <Button>Search</Button>
+</div>
+```
+
+### Badge
+
+Add a badge to the label, for example to mark a field as new. The tile's `label`
+takes any content, so the badge can go inside the tile too.
+
+<div class={stack}>
+  <div class={field}>
+    <label class={`${labelClass} flex items-center gap-2`} for="demo-hook">Webhook URL <span class="bg-primary px-1.5 text-xs font-semibold text-primary-foreground">Beta</span></label>
+    <Input id="demo-hook" type="url" placeholder="https://fernhill.studio/hooks/deploy" />
+  </div>
+  <InputBadgeTileDemo />
+</div>
+
+```tsx
+<label htmlFor="hook" className="flex items-center gap-2 text-sm font-semibold">
+  Webhook URL
+  <span className="bg-primary px-1.5 text-xs text-primary-foreground">Beta</span>
+</label>
+<Input id="hook" type="url" placeholder="https://fernhill.studio/hooks/deploy" />
+
+<Input
+  variant="tile"
+  type="url"
+  label={
+    <span className="flex items-center gap-2">
+      Webhook URL
+      <span className="bg-primary px-1.5 text-primary-foreground">Beta</span>
+    </span>
+  }
+/>
+```
+
+### With an icon
+
+Put the icon over the input and pad the text past it.
+
+<div class={stack}>
+  <div class="relative">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square" aria-hidden="true" class="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2"><circle cx="11" cy="11" r="6" /><path d="m20 20-4.5-4.5" /></svg>
+    <Input type="search" placeholder="Search components" aria-label="Search components" className="pl-9" />
+  </div>
+</div>
+
+```tsx
+<div className="relative">
+  <SearchIcon className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2" />
+  <Input type="search" placeholder="Search components" className="pl-9" />
+</div>
+```
+
+### With a button
+
+Drop the input's right border and the button's border takes its place, so the
+two read as one block.
+
+<div class={stack}>
+  <div class="flex">
+    <Input readOnly defaultValue="kstile-ui.vercel.app/invite/4f2a" aria-label="Invite link" className="border-r-0" />
+    <Button>Copy</Button>
+  </div>
+</div>
+
+```tsx
+<div className="flex">
+  <Input readOnly defaultValue="kstile-ui.vercel.app/invite/4f2a" className="border-r-0" />
+  <Button>Copy</Button>
+</div>
+```
+
+## Usage
+
+```tsx
+import { Input } from "@/components/ui/input"
+
+export function Example() {
+  return <Input type="email" placeholder="maya@fernhill.studio" />
+}
+```
+
+## Props
+
+The input takes every prop of an HTML `input`. kstile adds these:
+
+| Prop      | Type                | Default   | Description                                                          |
+| --------- | ------------------- | --------- | -------------------------------------------------------------------- |
+| `variant` | `default`, `tile`   | `default` | `tile` makes the field a 64px tile with its label inside.            |
+| `label`   | `ReactNode`         |           | The tile's label, set inside it at the top. Only the tile uses it.   |
+
+## Troubleshooting
+
+**Text zooms in on iPhone.** iOS zooms into any field with text smaller than
+16px. The default input uses 16px on small screens and 14px from 768px up, so
+keep `text-base` if you override the size.
+
+**The tile's `className` didn't reach the input.** On the tile, `className`
+styles the tile itself. Style the input through the tile, for example
+`[&_input]:text-2xl`.
