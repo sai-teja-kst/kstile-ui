@@ -93,7 +93,9 @@ export default defineConfig({
           items: [
             { label: "Overview", slug: "docs/components" },
             { label: "Accent picker", slug: "docs/components/accent-picker" },
+            { label: "Alert dialog", slug: "docs/components/alert-dialog" },
             { label: "Button", slug: "docs/components/button" },
+            { label: "Dialog", slug: "docs/components/dialog" },
             { label: "Dropdown menu", slug: "docs/components/dropdown-menu" },
             { label: "Input", slug: "docs/components/input" },
             { label: "Tile", slug: "docs/components/tile" },

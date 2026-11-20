@@ -1,0 +1,275 @@
+---
+title: Dialog
+description: A square, flat dialog with a thick border, or a tile, in the centre or as a sheet from the right or bottom.
+---
+
+import { Code, TabItem, Tabs } from "@astrojs/starlight/components"
+import {
+  DialogBandDemo,
+  DialogBottomDemo,
+  DialogDemo,
+  DialogSideDemo,
+  DialogTileDemo,
+} from "@/components/dialog-demos"
+import PackageManagerTabs from "@/components/package-manager-tabs.astro"
+import dialogSource from "@kstile/registry/react/dialog.tsx?raw"
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="not-content py-4">
+      <DialogDemo client:load />
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```tsx
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="outline">Rename project</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Rename project</DialogTitle>
+          <DialogDescription>
+            The new name shows in the URL and on every invite.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="grid gap-1.5">
+          <label htmlFor="name" className="text-sm font-semibold">Project name</label>
+          <Input id="name" defaultValue="kstile-site" />
+        </div>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button variant="outline">Cancel</Button>
+          </DialogClose>
+          <Button>Save</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+    ```
+  </TabItem>
+</Tabs>
+
+The dialog has square corners, a 3px border in your text colour and no shadow,
+over a flat dark scrim. It opens with a short fade from 97% size; closing is
+instant, like the dropdown menu. The close button sits in the top right corner.
+It's built on Radix, so focus stays inside while it's open, <kbd>Esc</kbd> and a
+click outside close it, and focus goes back to the trigger.
+
+To ask a question that needs an answer, such as "Delete project?", use the
+[alert dialog](/docs/components/alert-dialog/) instead.
+
+## Installation
+
+The dialog is React only, and needs Tailwind CSS v4. See
+[Installation](/docs/installation/) for the full requirements.
+
+<Tabs>
+  <TabItem label="CLI">
+    <PackageManagerTabs run="shadcn@latest add https://kstile-ui.vercel.app/r/dialog.json" />
+
+    If you've set up the `@kstile` name, `shadcn add @kstile/dialog` does the same.
+    See [Installation](/docs/installation/#shorter-commands-with-kstile).
+
+    If you already have shadcn's dialog, the CLI asks before replacing
+    `components/ui/dialog.tsx`. Your code keeps working, because the parts and
+    props are the same. Any changes you made to that file are lost, so commit first.
+
+  </TabItem>
+  <TabItem label="Manual">
+    Install the dependencies:
+
+    <PackageManagerTabs install="@radix-ui/react-dialog cn" />
+
+    Add `lib/utils.ts` if you don't have it:
+
+    ```ts
+    export { cn } from "cn"
+    ```
+
+    Then copy this into `components/ui/dialog.tsx`:
+
+    <Code code={dialogSource} lang="tsx" />
+
+  </TabItem>
+</Tabs>
+
+## Examples
+
+### Tile
+
+`variant="tile"` makes the dialog a muted tile with no border, like the input
+tile. The title is set large and light, and the footer's buttons become tiles of
+their own, flush with the bottom edge. An outline button takes the card colour,
+so it doesn't vanish into the tile. Give a tile input `bg-background` so it
+stands out.
+
+<div class="not-content py-4">
+  <DialogTileDemo client:load />
+</div>
+
+```tsx
+<DialogContent variant="tile">
+  <DialogHeader>
+    <span className="text-xs font-semibold">Team</span>
+    <DialogTitle>Invite people</DialogTitle>
+    <DialogDescription>They get an email with a link that works for 7 days.</DialogDescription>
+  </DialogHeader>
+  <Input variant="tile" label="Email" type="email" className="bg-background" />
+  <DialogFooter>
+    <DialogClose asChild>
+      <Button variant="outline">Cancel</Button>
+    </DialogClose>
+    <Button>Send invite</Button>
+  </DialogFooter>
+</DialogContent>
+```
+
+### Side sheet
+
+`side="right"` sets the dialog against the right edge at full height, with the
+border on its left only. The footer sits at the bottom. Use it for settings and
+other longer forms.
+
+<div class="not-content py-4">
+  <DialogSideDemo client:load />
+</div>
+
+```tsx
+<DialogContent side="right">
+  <DialogHeader>
+    <DialogTitle>Project settings</DialogTitle>
+    <DialogDescription>Changes apply on the next deploy.</DialogDescription>
+  </DialogHeader>
+  ...
+  <DialogFooter>
+    <DialogClose asChild>
+      <Button variant="outline">Cancel</Button>
+    </DialogClose>
+    <Button>Save</Button>
+  </DialogFooter>
+</DialogContent>
+```
+
+### Bottom sheet
+
+`side="bottom"` sets the dialog against the bottom edge at full width, with the
+border on top. It suits phones, where the bottom of the screen is easiest to
+reach. Make each row at least 48px tall, so it's easy to tap.
+
+<div class="not-content py-4">
+  <DialogBottomDemo client:load />
+</div>
+
+```tsx
+<DialogContent side="bottom" className="gap-3 px-0 pb-4">
+  <DialogHeader className="px-6">
+    <DialogTitle>Sort projects</DialogTitle>
+  </DialogHeader>
+  {sorts.map((s) => (
+    <DialogClose key={s} asChild>
+      <button
+        type="button"
+        aria-pressed={s === sort}
+        onClick={() => setSort(s)}
+        className="min-h-12 px-6 text-left aria-pressed:bg-primary aria-pressed:text-primary-foreground"
+      >
+        {s}
+      </button>
+    </DialogClose>
+  ))}
+</DialogContent>
+```
+
+`variant` and `side` combine, so `variant="tile" side="bottom"` gives a muted
+bottom sheet.
+
+### Accent band
+
+A pattern, not a variant: drop the padding and the close button, and put the
+title in a band of your accent with a close button of its own. The 3px bar
+above the footer matches the dropdown menu's separator. Keep the band for one
+dialog that matters, such as publishing, or it stops standing out.
+
+<div class="not-content py-4">
+  <DialogBandDemo client:load />
+</div>
+
+```tsx
+<DialogContent showCloseButton={false} className="gap-0 p-0">
+  <div className="flex h-14 items-center justify-between bg-primary pr-2 pl-5 text-primary-foreground">
+    <DialogTitle className="text-base">Publish changes</DialogTitle>
+    <DialogClose asChild>
+      <Button variant="ghost" size="icon" aria-label="Close" className="text-inherit">
+        <XIcon />
+      </Button>
+    </DialogClose>
+  </div>
+  <DialogDescription className="p-5">
+    These go live on kstile-site straight away.
+  </DialogDescription>
+  <div className="h-0.75 bg-foreground" />
+  <DialogFooter className="px-5 py-4">
+    <DialogClose asChild>
+      <Button variant="outline">Cancel</Button>
+    </DialogClose>
+    <Button>Publish</Button>
+  </DialogFooter>
+</DialogContent>
+```
+
+## Usage
+
+```tsx
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+
+export function Example() {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="outline">Open</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Title</DialogTitle>
+          <DialogDescription>What this dialog is for.</DialogDescription>
+        </DialogHeader>
+      </DialogContent>
+    </Dialog>
+  )
+}
+```
+
+Every dialog needs a `DialogTitle`, and a `DialogDescription` or
+`aria-describedby={undefined}` on the content. Radix warns in the console
+without them. Hide them with `sr-only` if you don't want them on screen.
+
+## Props
+
+The parts and their props are Radix's. See the
+[Radix dialog](https://www.radix-ui.com/primitives/docs/components/dialog)
+for the full list. kstile adds these to `DialogContent`:
+
+| Prop              | Type                        | Default   | Description                                                   |
+| ----------------- | --------------------------- | --------- | ------------------------------------------------------------- |
+| `variant`         | `default`, `tile`           | `default` | `tile` makes the dialog a muted tile with no border.          |
+| `side`            | `center`, `right`, `bottom` | `center`  | `right` and `bottom` make a sheet against that edge.          |
+| `showCloseButton` | `boolean`                   | `true`    | Shows the close button in the top right corner.              |
+
+| Part                | Use                                                         |
+| ------------------- | ----------------------------------------------------------- |
+| `DialogHeader`      | Holds the title and description, clear of the close button. |
+| `DialogFooter`      | Holds the buttons, at the bottom right. Stacked on phones.  |
+| `DialogClose`       | Closes the dialog. Pass `asChild` to use your own button.   |
+
+## Troubleshooting
+
+**The tile's Cancel button is invisible.** The secondary button is muted, the
+same colour as the tile. Use the outline button, which the tile gives the card
+colour.
