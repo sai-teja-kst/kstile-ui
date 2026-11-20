@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.0](https://github.com/sai-teja-kst/kstile-ui/compare/v0.8.0...v0.9.0) (2026-11-20)
+
+
+### Features
+
+* add the dialog and alert dialog components ([#34](https://github.com/sai-teja-kst/kstile-ui/issues/34)) ([6c91363](https://github.com/sai-teja-kst/kstile-ui/commit/6c9136389d7365583c9a7da52af3d5682202a17c))
+
 ## [0.8.0](https://github.com/sai-teja-kst/kstile-ui/compare/v0.7.0...v0.8.0) (2026-11-14)
 
 
