@@ -129,6 +129,40 @@
           "type": "registry:ui"
         }
       ]
+    },
+    {
+      "name": "dialog",
+      "type": "registry:ui",
+      "title": "Dialog",
+      "description": "A square, flat dialog with a thick border, or a tile, in the centre or as a sheet from the right or bottom.",
+      "dependencies": ["@radix-ui/react-dialog"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "react/dialog.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "alert-dialog",
+      "type": "registry:ui",
+      "title": "Alert dialog",
+      "description": "A dialog that asks for an answer, with a red square on the title when the action is destructive.",
+      "dependencies": [
+        "@radix-ui/react-alert-dialog",
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "utils",
+        "https://kstile-ui.vercel.app/r/button.json"
+      ],
+      "files": [
+        {
+          "path": "react/alert-dialog.tsx",
+          "type": "registry:ui"
+        }
+      ]
     }
   ]
 }

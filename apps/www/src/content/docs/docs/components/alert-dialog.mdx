@@ -1,0 +1,116 @@
+---
+title: Alert dialog
+description: A dialog that asks for an answer, with a red square on the title when the action is destructive.
+---
+
+import { Code, TabItem, Tabs } from "@astrojs/starlight/components"
+import {
+  AlertDialogDemo,
+  AlertDialogDestructiveDemo,
+} from "@/components/dialog-demos"
+import PackageManagerTabs from "@/components/package-manager-tabs.astro"
+import alertSource from "@kstile/registry/react/alert-dialog.tsx?raw"
+
+<Tabs>
+  <TabItem label="Preview">
+    <div class="not-content py-4">
+      <AlertDialogDestructiveDemo client:load />
+    </div>
+  </TabItem>
+  <TabItem label="Code">
+    ```tsx
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <Button variant="destructive">Delete project</Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Delete project?</AlertDialogTitle>
+          <AlertDialogDescription>
+            kstile-site and its 14 deployments are removed for good. This can't be undone.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction variant="destructive">Delete project</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+    ```
+  </TabItem>
+</Tabs>
+
+The alert dialog looks like the [dialog](/docs/components/dialog/), with no
+close button. A click outside doesn't close it, so the reader has to pick
+Cancel or the action. <kbd>Esc</kbd> still cancels. Focus starts on Cancel, the
+safe answer.
+
+When the action is destructive, a red square sits before the title and the
+action button fills red. The text stays in your text colour, because red text
+on a light background is too faint to read. This matches the destructive rows
+of the dropdown menu.
+
+## Installation
+
+The alert dialog is React only, and needs Tailwind CSS v4. It uses the kstile
+[button](/docs/components/button/), which the CLI installs with it. See
+[Installation](/docs/installation/) for the full requirements.
+
+<Tabs>
+  <TabItem label="CLI">
+    <PackageManagerTabs run="shadcn@latest add https://kstile-ui.vercel.app/r/alert-dialog.json" />
+
+    If you've set up the `@kstile` name, `shadcn add @kstile/alert-dialog` does the same.
+    See [Installation](/docs/installation/#shorter-commands-with-kstile).
+
+  </TabItem>
+  <TabItem label="Manual">
+    Install the dependencies, and add the [button](/docs/components/button/) if
+    you don't have it:
+
+    <PackageManagerTabs install="@radix-ui/react-alert-dialog class-variance-authority cn" />
+
+    Add `lib/utils.ts` if you don't have it:
+
+    ```ts
+    export { cn } from "cn"
+    ```
+
+    Then copy this into `components/ui/alert-dialog.tsx`:
+
+    <Code code={alertSource} lang="tsx" />
+
+  </TabItem>
+</Tabs>
+
+## Examples
+
+### Not destructive
+
+Leave out `variant` on the action for a question that isn't destructive. The
+title has no red square, and the action takes your accent.
+
+<div class="not-content py-4">
+  <AlertDialogDemo client:load />
+</div>
+
+```tsx
+<AlertDialogFooter>
+  <AlertDialogCancel>Cancel</AlertDialogCancel>
+  <AlertDialogAction>Sign out</AlertDialogAction>
+</AlertDialogFooter>
+```
+
+## Props
+
+The parts and their props are Radix's. See the
+[Radix alert dialog](https://www.radix-ui.com/primitives/docs/components/alert-dialog)
+for the full list. kstile adds these:
+
+| Part                | Prop      | Type                         | Default   | Description                                                        |
+| ------------------- | --------- | ---------------------------- | --------- | ------------------------------------------------------------------ |
+| `AlertDialogAction` | `variant` | the button's variants        | `default` | `destructive` fills it red and puts a red square before the title. |
+| `AlertDialogCancel` | `variant` | the button's variants        | `outline` | The cancel button's look.                                          |
+| `AlertDialogAction`, `AlertDialogCancel` | `size` | the button's sizes | `default` | The button's size.                                          |
+
+Name the action for what it does, such as "Delete project", not "OK".
